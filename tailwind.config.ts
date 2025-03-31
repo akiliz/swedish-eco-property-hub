@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom colors for Swedish eco-properties theme
+				eco: {
+					green: '#2E7D32',
+					blue: '#006AA7',
+					wood: '#D7CCA3',
+					lightGreen: '#A5D6A7',
+					darkGreen: '#1B5E20',
+					lightBlue: '#4FC3F7',
+					gray: '#F5F5F5',
 				}
 			},
 			borderRadius: {
