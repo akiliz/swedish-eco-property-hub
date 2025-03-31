@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useState } from "react";
+import { useCarousel } from "@/components/ui/carousel";
 
 interface PropertyGalleryProps {
   images: string[];
@@ -16,12 +17,18 @@ interface PropertyGalleryProps {
 
 const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  
   return (
     <div className="space-y-4">
       <Carousel 
         className="w-full"
-        onSelect={(index) => {
+        opts={{
+          align: "start",
+          startIndex: currentIndex,
+        }}
+        onScroll={(api) => {
+          if (!api) return;
+          const index = api.selectedScrollSnap();
           setCurrentIndex(index);
         }}
       >
