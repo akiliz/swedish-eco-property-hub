@@ -4,10 +4,11 @@ import {
   CarouselContent, 
   CarouselItem, 
   CarouselNext, 
-  CarouselPrevious 
+  CarouselPrevious,
+  type CarouselApi
 } from "@/components/ui/carousel";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 interface PropertyGalleryProps {
   images: string[];
@@ -16,6 +17,16 @@ interface PropertyGalleryProps {
 
 const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  
+  const handleSelect = useCallback(() => {
+    if (!api) return;
+    setCurrentIndex(api.selectedScrollSnap());
+  }, [api]);
+
+  const scrollToIndex = useCallback((index: number) => {
+    api?.scrollTo(index);
+  }, [api]);
   
   return (
     <div className="space-y-4">
@@ -25,10 +36,8 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
           align: "start",
           startIndex: currentIndex,
         }}
-        onSelect={(api) => {
-          if (!api) return;
-          setCurrentIndex(api.selectedScrollSnap());
-        }}
+        setApi={setApi}
+        onSelect={handleSelect}
       >
         <CarouselContent>
           {images.map((image, index) => (
@@ -51,7 +60,7 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
         {images.map((image, index) => (
           <button
             key={index}
-            onClick={() => setCurrentIndex(index)}
+            onClick={() => scrollToIndex(index)}
             className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden ${
               currentIndex === index ? "ring-2 ring-eco-green" : ""
             }`}
