@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/carousel";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useState } from "react";
-import { useCarousel } from "@/components/ui/carousel";
 
 interface PropertyGalleryProps {
   images: string[];
@@ -26,10 +25,9 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
           align: "start",
           startIndex: currentIndex,
         }}
-        onScroll={(api) => {
+        onSelect={(api) => {
           if (!api) return;
-          const index = api.selectedScrollSnap();
-          setCurrentIndex(index);
+          setCurrentIndex(api.selectedScrollSnap());
         }}
       >
         <CarouselContent>
