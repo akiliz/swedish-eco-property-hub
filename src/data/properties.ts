@@ -15,6 +15,12 @@ export const properties: PropertyProps[] = [
     energyClass: "A",
     certifications: ["Nordic Swan", "BREEAM"],
     imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1470&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600210492493-0946911123ea?q=80&w=1470&auto=format&fit=crop"
+    ],
     isNew: true,
     visaEligible: true
   },
@@ -31,6 +37,11 @@ export const properties: PropertyProps[] = [
     energyClass: "B",
     certifications: ["Nordic Swan"],
     imageUrl: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=1470&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1560185009-5bf9f2849488?q=80&w=1470&auto=format&fit=crop"
+    ],
     visaEligible: true
   },
   {
@@ -44,6 +55,11 @@ export const properties: PropertyProps[] = [
     energyClass: "A",
     certifications: ["BREEAM", "LEED"],
     imageUrl: "https://images.unsplash.com/photo-1531973576160-7125cd663d86?q=80&w=1470&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1531973576160-7125cd663d86?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1470&auto=format&fit=crop"
+    ],
     isNew: false,
     visaEligible: true
   },
@@ -60,6 +76,11 @@ export const properties: PropertyProps[] = [
     energyClass: "B",
     certifications: ["Miljöbyggnad"],
     imageUrl: "https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=1467&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=1467&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1472224371017-08207f84aaae?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1470&auto=format&fit=crop"
+    ],
     isNew: false,
     visaEligible: false
   },
@@ -74,6 +95,11 @@ export const properties: PropertyProps[] = [
     energyClass: "C",
     certifications: ["BREEAM"],
     imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1558&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1558&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1470&auto=format&fit=crop"
+    ],
     isNew: true,
     visaEligible: false
   },
@@ -90,6 +116,11 @@ export const properties: PropertyProps[] = [
     energyClass: "A",
     certifications: ["Nordic Swan", "Miljöbyggnad"],
     imageUrl: "https://images.unsplash.com/photo-1636055981100-9c96b2e3b9ab?q=80&w=1470&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1636055981100-9c96b2e3b9ab?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1633505650409-cc8deb2df8c9?q=80&w=1470&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1580237072044-f2fa64c42655?q=80&w=1470&auto=format&fit=crop"
+    ],
     isNew: false,
     visaEligible: true
   }

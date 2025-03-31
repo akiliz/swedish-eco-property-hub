@@ -1,4 +1,3 @@
-
 import { Building, MapPin, Home, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -17,6 +16,7 @@ export interface PropertyProps {
   energyClass: "A" | "B" | "C" | "D" | "E" | "F" | "G";
   certifications: string[];
   imageUrl: string;
+  images?: string[];
   isNew?: boolean;
   visaEligible?: boolean;
 }

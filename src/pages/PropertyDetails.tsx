@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { 
@@ -19,6 +18,7 @@ import properties from "@/data/properties";
 import { PropertyProps } from "@/components/PropertyCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PropertyGallery from "@/components/PropertyGallery";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -92,6 +92,8 @@ const PropertyDetails = () => {
     );
   }
 
+  const propertyImages = property.images || [property.imageUrl];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -128,12 +130,8 @@ const PropertyDetails = () => {
               </div>
             </div>
             
-            <div className="bg-gray-200 aspect-video overflow-hidden rounded-lg mb-6">
-              <img 
-                src={property.imageUrl} 
-                alt={property.title} 
-                className="w-full h-full object-cover"
-              />
+            <div className="mb-6">
+              <PropertyGallery images={propertyImages} title={property.title} />
             </div>
             
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
