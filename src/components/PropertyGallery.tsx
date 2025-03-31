@@ -21,8 +21,8 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
     <div className="space-y-4">
       <Carousel 
         className="w-full"
-        onSelect={(api) => {
-          if (api) setCurrentIndex(api.selectedScrollSnap());
+        onSelect={(index) => {
+          setCurrentIndex(index);
         }}
       >
         <CarouselContent>
