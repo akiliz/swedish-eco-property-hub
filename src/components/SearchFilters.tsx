@@ -174,8 +174,8 @@ const SearchFilters = ({
               />
             </div>
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span className="currency-sek">{formatPrice(priceRange[0])}</span>
-              <span className="currency-sek">{formatPrice(priceRange[1])}</span>
+              <span>{formatPrice(priceRange[0])}</span>
+              <span>{formatPrice(priceRange[1])}</span>
             </div>
           </div>
 
@@ -238,9 +238,9 @@ const SearchFilters = ({
                     <SelectValue placeholder="Select distance" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">< 1 km</SelectItem>
-                    <SelectItem value="5">< 5 km</SelectItem>
-                    <SelectItem value="10">< 10 km</SelectItem>
+                    <SelectItem value="1">&lt; 1 km</SelectItem>
+                    <SelectItem value="5">&lt; 5 km</SelectItem>
+                    <SelectItem value="10">&lt; 10 km</SelectItem>
                     <SelectItem value="any">Any distance</SelectItem>
                   </SelectContent>
                 </Select>
