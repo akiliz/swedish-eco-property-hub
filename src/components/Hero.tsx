@@ -28,7 +28,7 @@ const Hero = () => {
       <div 
         className="h-[500px] bg-cover bg-center"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1562175976-4c8a6de5cbba?q=80&w=1470&auto=format&fit=crop')"
+          backgroundImage: "url('https://cdn.mos.cms.futurecdn.net/rFWTirBgcDcqhLMHPhnL4e-1180-80.jpg')"
         }}
       ></div>
       
