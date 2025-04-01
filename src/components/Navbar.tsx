@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,9 +13,15 @@ import { Globe, Menu, X } from "lucide-react";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [language, setLanguage] = useState<"en" | "sv">("en");
+  const navigate = useNavigate();
 
   const toggleLanguage = () => {
     setLanguage(language === "en" ? "sv" : "en");
+  };
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsOpen(false);
   };
 
   return (
@@ -74,7 +80,11 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button variant="default" className="hidden md:inline-flex">
+          <Button 
+            variant="default" 
+            className="hidden md:inline-flex"
+            onClick={() => navigate("/properties")}
+          >
             {language === "en" ? "List Property" : "Lägg Till Fastighet"}
           </Button>
 
@@ -93,35 +103,34 @@ const Navbar = () => {
       {/* Mobile Navigation */}
       {isOpen && (
         <div className="md:hidden pt-4 pb-2 px-4 space-y-2">
-          <Link
-            to="/properties"
-            className="block py-2 text-foreground hover:text-eco-green transition-colors"
-            onClick={() => setIsOpen(false)}
+          <button
+            className="block w-full text-left py-2 text-foreground hover:text-eco-green transition-colors"
+            onClick={() => handleNavigation("/properties")}
           >
             {language === "en" ? "Properties" : "Fastigheter"}
-          </Link>
-          <Link
-            to="/agents"
-            className="block py-2 text-foreground hover:text-eco-green transition-colors"
-            onClick={() => setIsOpen(false)}
+          </button>
+          <button
+            className="block w-full text-left py-2 text-foreground hover:text-eco-green transition-colors"
+            onClick={() => handleNavigation("/agents")}
           >
             {language === "en" ? "Agents" : "Mäklare"}
-          </Link>
-          <Link
-            to="/expat-resources"
-            className="block py-2 text-foreground hover:text-eco-green transition-colors"
-            onClick={() => setIsOpen(false)}
+          </button>
+          <button
+            className="block w-full text-left py-2 text-foreground hover:text-eco-green transition-colors"
+            onClick={() => handleNavigation("/expat-resources")}
           >
             {language === "en" ? "Expat Resources" : "Utländsk Resurs"}
-          </Link>
-          <Link
-            to="/about"
-            className="block py-2 text-foreground hover:text-eco-green transition-colors"
-            onClick={() => setIsOpen(false)}
+          </button>
+          <button
+            className="block w-full text-left py-2 text-foreground hover:text-eco-green transition-colors"
+            onClick={() => handleNavigation("/about")}
           >
             {language === "en" ? "About" : "Om Oss"}
-          </Link>
-          <Button className="w-full mt-2">
+          </button>
+          <Button 
+            className="w-full mt-2"
+            onClick={() => handleNavigation("/properties")}
+          >
             {language === "en" ? "List Property" : "Lägg Till Fastighet"}
           </Button>
         </div>
