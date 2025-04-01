@@ -83,7 +83,7 @@ const Navbar = () => {
           <Button 
             variant="default" 
             className="hidden md:inline-flex"
-            onClick={() => navigate("/properties")}
+            onClick={() => navigate("/list-property")}
           >
             {language === "en" ? "List Property" : "Lägg Till Fastighet"}
           </Button>
@@ -129,7 +129,7 @@ const Navbar = () => {
           </button>
           <Button 
             className="w-full mt-2"
-            onClick={() => handleNavigation("/properties")}
+            onClick={() => handleNavigation("/list-property")}
           >
             {language === "en" ? "List Property" : "Lägg Till Fastighet"}
           </Button>
