@@ -53,7 +53,7 @@ const Hero = () => {
                     <SelectItem value="Gothenburg">Gothenburg</SelectItem>
                     <SelectItem value="Malmö">Malmö</SelectItem>
                     <SelectItem value="Västra Götaland">Västra Götaland</SelectItem>
-                    <SelectItem value="">All Locations</SelectItem>
+                    <SelectItem value="all">All Locations</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
