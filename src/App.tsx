@@ -10,7 +10,8 @@ import PropertyDetails from "@/pages/PropertyDetails";
 import ExpatResources from "@/pages/ExpatResources";
 import Properties from "./pages/Properties";
 import Agents from "./pages/Agents";
-import EcoInvestmentGuide from "@/pages/EcoInvestmentGuide"; // Added import
+import EcoInvestmentGuide from "@/pages/EcoInvestmentGuide";
+import ListProperty from "./pages/ListProperty"; // Added import
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,8 @@ const App = () => (
           <Route path="/properties/:id" element={<PropertyDetails />} />
           <Route path="/agents" element={<Agents />} />
           <Route path="/expat-resources" element={<ExpatResources />} />
-          <Route path="/eco-investment-guide" element={<EcoInvestmentGuide />} /> {/* Added route */}
+          <Route path="/eco-investment-guide" element={<EcoInvestmentGuide />} />
+          <Route path="/list-property" element={<ListProperty />} /> {/* Added route */}
           <Route path="/about" element={<Index />} />
           <Route path="/contact" element={<Index />} />
           <Route path="*" element={<NotFound />} />
