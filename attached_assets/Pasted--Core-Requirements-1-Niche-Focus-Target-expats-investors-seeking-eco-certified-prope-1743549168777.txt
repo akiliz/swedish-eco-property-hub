@@ -1,0 +1,65 @@
+**Core Requirements:**
+1. **Niche Focus:** 
+   - Target expats/investors seeking eco-certified properties in Sweden
+   - Include commercial/residential segments
+   
+2. **Key Features:**
+   - Property listings with filters:
+     - Eco-certifications (Nordic Swan, BREEAM)
+     - Proximity to international schools
+     - Visa requirement status
+   - Agent/broker profiles with FMI license verification
+   - Dual-language support (Swedish/English)
+
+3. **Swedish Market Specifics:**
+   - Västra Götaland County focus (32% YoY foreign demand growth)
+   - Price ranges: 3M–25M SEK
+   - Mandatory Fastighetsmäklarlegitimation badges
+ **Listing Structure:**
+   - Mandatory fields:
+     * Property type (Residential/Commercial)
+     * Energy class (A–G)
+     * Visa sponsorship eligibility
+     * FMI license number
+   - Optional fields:
+     * 3D tour links (Matterport/arround.io)
+     * Expat neighborhood guides
+
+2. **Search Filters:**
+   - [ ] Sustainability certifications
+   - [ ] Distance from international schools
+   - [ ] New construction vs renovation
+   - [ ] Seller type (bank/private/developer)
+
+3. **Agent Portal:**
+   - FMI license upload/verification
+   - Transaction history display
+   - Direct booking for virtual tours
+
+4. **Expat Resources Section:**
+   - Tax calculator (30% rule for foreign workers)
+   - Residency permit flowchart
+   - School district maps
+
+5. **SEO Components:**
+   - Automated schema markup for properties
+   - Location pages for:
+     * Stockholm expat neighborhoods
+     * Gothenburg sustainable developments
+     * Malmö Øresund region investments
+
+6. **Monetization Setup:**
+   - Tiered subscriptions:
+     * Basic: 500 SEK/mo (5 listings)
+     * Premium: 1,500 SEK/mo (unlimited + analytics)
+   - Lead generation fees (3% of broker commission)"
+
+**Technical Requirements:**
+- Swedish kronor currency display
+- GDPR-compliant contact forms
+- Mobile-first design for 58% mobile traffic
+
+**Post-Setup Actions:**
+1. Manual Vitec integration via CSV imports
+2. Add Matterport embed codes manually
+3. Connect Google Translate API for DE/CN translations
