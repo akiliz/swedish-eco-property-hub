@@ -75,17 +75,37 @@ const Hero = () => {
             </div>
             
             <div className="flex flex-wrap justify-center gap-2 mt-4">
-              <Button variant="link" className="text-white hover:text-eco-wood h-auto p-0">
+              <Button 
+                variant="link" 
+                className="text-white hover:text-eco-wood h-auto p-0"
+                onClick={() => navigate(`/properties?location=Stockholm`)}
+              >
                 Stockholm Properties
               </Button>
               <span className="text-white/50">•</span>
-              <Button variant="link" className="text-white hover:text-eco-wood h-auto p-0">
+              <Button 
+                variant="link" 
+                className="text-white hover:text-eco-wood h-auto p-0"
+                onClick={() => navigate(`/properties?location=Gothenburg`)}
+              >
                 Gothenburg Properties
               </Button>
               <span className="text-white/50">•</span>
-              <Button variant="link" className="text-white hover:text-eco-wood h-auto p-0">
+              <Button 
+                variant="link" 
+                className="text-white hover:text-eco-wood h-auto p-0"
+                onClick={() => navigate(`/properties?location=Malmö`)}
+              >
                 Malmö Properties
               </Button>
+              <span className="text-white/50">•</span>
+              <Button 
+                variant="link" 
+                className="text-white hover:text-eco-wood h-auto p-0"
+                onClick={() => navigate(`/properties?location=Västra Götaland`)}
+              >
+                Västra Götaland Properties
+              </Button>tton>
               <span className="text-white/50">•</span>
               <Button variant="link" className="text-white hover:text-eco-wood h-auto p-0">
                 Sustainable Homes
