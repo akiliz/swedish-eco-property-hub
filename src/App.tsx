@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import PropertyDetails from "./pages/PropertyDetails";
 import ExpatResources from "./pages/ExpatResources";
+import Properties from "./pages/Properties";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +20,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/properties" element={<Index />} />
+          <Route path="/properties" element={<Properties />} />
           <Route path="/properties/:id" element={<PropertyDetails />} />
           <Route path="/agents" element={<Index />} />
           <Route path="/expat-resources" element={<ExpatResources />} />
