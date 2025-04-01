@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import PropertyDetails from "./pages/PropertyDetails";
+import ExpatResources from "./pages/ExpatResources";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,7 @@ const App = () => (
           <Route path="/properties" element={<Index />} />
           <Route path="/properties/:id" element={<PropertyDetails />} />
           <Route path="/agents" element={<Index />} />
-          <Route path="/expat-resources" element={<Index />} />
+          <Route path="/expat-resources" element={<ExpatResources />} />
           <Route path="/about" element={<Index />} />
           <Route path="/contact" element={<Index />} />
           <Route path="*" element={<NotFound />} />
