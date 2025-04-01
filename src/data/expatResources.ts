@@ -1,14 +1,13 @@
-
 import { ResourceProps } from "@/components/ExpatResourceCard";
 
 export const expatResources: ResourceProps[] = [
   {
     id: "resource1",
-    title: "Swedish Tax Calculator for Foreign Workers",
-    description: "Calculate your tax obligations as a foreign worker in Sweden, including the 30% rule for qualified specialists.",
-    category: "Taxation",
-    link: "#tax-calculator",
-    icon: "calculator"
+    title: "Eco Property Investment Guide",
+    description: "Learn about sustainable property investments, energy ratings, and green certifications in Sweden.",
+    category: "Investment", // Changed category to better suit the new resource
+    link: "/eco-investment-guide",
+    icon: "Leaf" // Changed icon to better suit the new resource
   },
   {
     id: "resource2",
