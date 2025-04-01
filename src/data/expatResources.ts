@@ -1,3 +1,4 @@
+
 import { ResourceProps } from "@/components/ExpatResourceCard";
 
 export const expatResources: ResourceProps[] = [
@@ -5,16 +6,16 @@ export const expatResources: ResourceProps[] = [
     id: "resource1",
     title: "Eco Property Investment Guide",
     description: "Learn about sustainable property investments, energy ratings, and green certifications in Sweden.",
-    category: "Investment", // Changed category to better suit the new resource
+    category: "Investment",
     link: "/eco-investment-guide",
-    icon: "Leaf" // Changed icon to better suit the new resource
+    icon: "Leaf"
   },
   {
     id: "resource2",
     title: "Residency Permit Guide",
     description: "Step-by-step guide to obtaining residency permits in Sweden through property ownership.",
     category: "Immigration",
-    link: "#residency-guide",
+    link: "/residency-guide",
     icon: "document"
   },
   {
@@ -22,7 +23,7 @@ export const expatResources: ResourceProps[] = [
     title: "International Schools Map",
     description: "Interactive map of international schools across Sweden with ratings and admission information.",
     category: "Education",
-    link: "#schools-map",
+    link: "/expat-resources",
     icon: "map"
   },
   {
@@ -30,7 +31,7 @@ export const expatResources: ResourceProps[] = [
     title: "Eco-Certification Explained",
     description: "Comprehensive guide to understanding Nordic Swan, BREEAM, and other eco-certifications in Sweden.",
     category: "Sustainability",
-    link: "#eco-certifications",
+    link: "/eco-investment-guide",
     icon: "document"
   },
   {
@@ -38,15 +39,15 @@ export const expatResources: ResourceProps[] = [
     title: "Swedish Property Buying Process",
     description: "Guide to the Swedish property purchase process for international buyers.",
     category: "Legal",
-    link: "#buying-process",
+    link: "/buying-process",
     icon: "document"
   },
   {
     id: "resource6",
     title: "Expat Relocation Services",
-    description: "Connect with trusted relocation services to help with your move to Sweden.",
+    description: "Comprehensive relocation services for expats moving to Sweden.",
     category: "Services",
-    link: "#relocation-services",
+    link: "/expat-resources",
     icon: "link"
   }
 ];
