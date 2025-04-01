@@ -8,8 +8,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const ListProperty = () => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     type: "",
@@ -19,15 +29,24 @@ const ListProperty = () => {
     area: "",
     energyClass: "",
     description: "",
+    // Contact information
+    sellerName: "",
+    sellerEmail: "",
+    sellerPhone: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowConfirmation(true);
+  };
+
+  const handleConfirm = () => {
     // Here you would typically send the data to your backend
     toast({
       title: "Property submitted",
-      description: "Your property listing has been submitted for review.",
+      description: "Your property listing has been submitted for review. We will contact you shortly.",
     });
+    setShowConfirmation(false);
   };
 
   return (
@@ -144,6 +163,44 @@ const ListProperty = () => {
               />
             </div>
 
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold">Contact Information</h3>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="sellerName">Your Name</Label>
+                  <Input
+                    id="sellerName"
+                    placeholder="Enter your name"
+                    value={formData.sellerName}
+                    onChange={(e) => setFormData({ ...formData, sellerName: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="sellerEmail">Email</Label>
+                  <Input
+                    id="sellerEmail"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={formData.sellerEmail}
+                    onChange={(e) => setFormData({ ...formData, sellerEmail: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="sellerPhone">Phone Number</Label>
+                  <Input
+                    id="sellerPhone"
+                    type="tel"
+                    placeholder="Enter your phone number"
+                    value={formData.sellerPhone}
+                    onChange={(e) => setFormData({ ...formData, sellerPhone: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
             <Button type="submit" className="w-full bg-eco-green hover:bg-eco-darkGreen">
               Submit Property
             </Button>
@@ -152,6 +209,20 @@ const ListProperty = () => {
       </main>
 
       <Footer />
+
+      <AlertDialog open={showConfirmation} onOpenChange={setShowConfirmation}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Submission</AlertDialogTitle>
+            <AlertDialogDescription>
+              Thank you for submitting your property listing. Our team will review your submission and contact you within 24-48 hours at the provided contact information.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={handleConfirm}>Understood</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
