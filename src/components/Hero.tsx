@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,7 +30,7 @@ const Hero = () => {
           backgroundImage: "url('https://cdn.mos.cms.futurecdn.net/rFWTirBgcDcqhLMHPhnL4e-1180-80.jpg')"
         }}
       ></div>
-      
+
       {/* Content */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-white">
         <div className="container px-4 md:px-6 text-center">
@@ -41,19 +40,24 @@ const Hero = () => {
           <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
             Discover sustainable properties in Sweden perfect for international buyers and investors
           </p>
-          
+
           <div className="max-w-2xl mx-auto p-4 bg-white/10 backdrop-blur-md rounded-lg">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="relative flex-grow">
-                <MapPin className="absolute left-3 top-3 h-5 w-5 text-white" />
-                <Input 
-                  placeholder="City, region or neighborhood"
-                  className="pl-10 bg-white/20 text-white placeholder:text-white/70 border-white/30"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
+                <Select value={location} onValueChange={setLocation}>
+                  <SelectTrigger className="bg-white/20 text-white border-white/30 w-full md:w-[200px]">
+                    <SelectValue placeholder="Select Location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Stockholm">Stockholm</SelectItem>
+                    <SelectItem value="Gothenburg">Gothenburg</SelectItem>
+                    <SelectItem value="Malmö">Malmö</SelectItem>
+                    <SelectItem value="Västra Götaland">Västra Götaland</SelectItem>
+                    <SelectItem value="">All Locations</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              
+
               <Select value={propertyType} onValueChange={setPropertyType}>
                 <SelectTrigger className="bg-white/20 text-white border-white/30 w-full md:w-[200px]">
                   <SelectValue placeholder="Property Type" />
@@ -64,7 +68,7 @@ const Hero = () => {
                   <SelectItem value="all">All Properties</SelectItem>
                 </SelectContent>
               </Select>
-              
+
               <Button 
                 onClick={handleSearch}
                 className="bg-eco-green hover:bg-eco-darkGreen text-white"
@@ -73,7 +77,7 @@ const Hero = () => {
                 Search
               </Button>
             </div>
-            
+
             <div className="flex flex-wrap justify-center gap-2 mt-4">
               <Button 
                 variant="link" 
@@ -105,7 +109,7 @@ const Hero = () => {
                 onClick={() => navigate(`/properties?location=Västra Götaland`)}
               >
                 Västra Götaland Properties
-              </Button>tton>
+              </Button>
               <span className="text-white/50">•</span>
               <Button variant="link" className="text-white hover:text-eco-wood h-auto p-0">
                 Sustainable Homes
