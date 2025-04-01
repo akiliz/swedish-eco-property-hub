@@ -12,7 +12,9 @@ import Properties from "./pages/Properties";
 import Agents from "./pages/Agents";
 import EcoInvestmentGuide from "@/pages/EcoInvestmentGuide";
 import ListProperty from "./pages/ListProperty";
-import About from "@/pages/About"; // Added import
+import About from "@/pages/About";
+import ResidencyGuide from "@/pages/ResidencyGuide";
+import BuyingProcess from "@/pages/BuyingProcess";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,8 @@ const App = () => (
           <Route path="/eco-investment-guide" element={<EcoInvestmentGuide />} />
           <Route path="/list-property" element={<ListProperty />} />
           <Route path="/about" element={<About />} />
+          <Route path="/residency-guide" element={<ResidencyGuide />} />
+          <Route path="/buying-process" element={<BuyingProcess />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
