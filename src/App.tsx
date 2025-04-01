@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import PropertyDetails from "./pages/PropertyDetails";
 import ExpatResources from "./pages/ExpatResources";
 import Properties from "./pages/Properties";
+import Agents from "./pages/Agents";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/properties/:id" element={<PropertyDetails />} />
-          <Route path="/agents" element={<Index />} />
+          <Route path="/agents" element={<Agents />} />
           <Route path="/expat-resources" element={<ExpatResources />} />
           <Route path="/about" element={<Index />} />
           <Route path="/contact" element={<Index />} />
