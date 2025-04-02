@@ -6,6 +6,7 @@ export const properties: PropertyProps[] = [
     id: "prop1",
     title: "Modern Villa in Stockholm",
     type: "residential",
+    description: "Stunning modern villa with eco-friendly features in Stockholm's prestigious area. Features solar panels and smart home technology.",
     price: 7500000,
     location: "Stockholm",
     address: "Sveavägen 12, 113 50 Stockholm",

@@ -29,7 +29,7 @@ const PropertyDetails = () => {
 
   const seoData = {
     title: propertyData ? `${propertyData.title} | EcoHome Sweden` : 'Property Details | EcoHome Sweden',
-    description: propertyData ? `${propertyData.description.substring(0, 160)}...` : 'Eco-friendly property in Sweden',
+    description: propertyData?.description ? propertyData.description.substring(0, 160) + '...' : 'Eco-friendly property in Sweden',
     keywords: 'eco property, sustainable home, swedish real estate',
   };
 

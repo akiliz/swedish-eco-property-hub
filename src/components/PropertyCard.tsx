@@ -19,7 +19,7 @@ export interface PropertyProps {
   images?: string[];
   isNew?: boolean;
   visaEligible?: boolean;
-  description: string; // Added description for schema
+  description?: string; // Added optional description for schema
 }
 
 const PropertyCard = ({ property }: { property: PropertyProps }) => {
@@ -44,7 +44,7 @@ const PropertyCard = ({ property }: { property: PropertyProps }) => {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
     "name": property.title,
-    "description": property.description,
+    "description": property.description || "", // Handle undefined description
     "price": property.price,
     "address": {
       "@type": "PostalAddress",
