@@ -1,4 +1,3 @@
-
 import { User, Phone, Mail, Check, Award } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +27,8 @@ const AgentCard = ({ agent }: { agent: AgentProps }) => {
             src={agent.imageUrl}
             alt={agent.name}
             className="w-24 h-24 rounded-full object-cover border-2 border-eco-green"
+            loading="lazy"
+            decoding="async"
           />
           {agent.verified && (
             <div className="absolute bottom-0 right-0 bg-eco-green text-white rounded-full p-1">
@@ -37,12 +38,12 @@ const AgentCard = ({ agent }: { agent: AgentProps }) => {
         </div>
         <h3 className="font-semibold text-lg mt-4">{agent.name}</h3>
         <p className="text-muted-foreground">{agent.title}</p>
-        
+
         <div className="flex items-center mt-2">
           <Award className="h-4 w-4 text-eco-green mr-1" />
           <span className="text-sm font-medium">FMI License: {agent.fmiLicense}</span>
         </div>
-        
+
         <div className="mt-3 flex gap-1 flex-wrap justify-center">
           {agent.languages.map((language, index) => (
             <Badge key={index} variant="outline" className="text-xs">
@@ -51,7 +52,7 @@ const AgentCard = ({ agent }: { agent: AgentProps }) => {
           ))}
         </div>
       </div>
-      
+
       <CardContent className="p-4">
         <div className="space-y-3">
           <div className="flex items-center">
@@ -79,7 +80,7 @@ const AgentCard = ({ agent }: { agent: AgentProps }) => {
           </div>
         </div>
       </CardContent>
-      
+
       <CardFooter className="p-4 pt-0">
         <Link to={`/agents/${agent.id}`} className="w-full">
           <Button 

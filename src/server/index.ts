@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import compression from 'compression';
 import { Property } from './models/Property';
 import { User } from './models/User';
 
@@ -12,7 +13,16 @@ const app = express();
 
 // Middleware
 app.use(cors());
+app.use(compression());
 app.use(express.json());
+
+// Cache control
+app.use((req, res, next) => {
+  if (req.method === 'GET') {
+    res.set('Cache-Control', 'public, max-age=300'); // 5 minutes cache
+  }
+  next();
+});
 
 // Routes
 import authRoutes from './routes/auth';

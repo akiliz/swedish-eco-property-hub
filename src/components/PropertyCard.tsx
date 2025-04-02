@@ -61,11 +61,15 @@ const PropertyCard = ({ property }: { property: PropertyProps }) => {
       </script>
       <Card className="overflow-hidden hover:shadow-md transition-shadow">
         <div className="relative">
-          <img
-            src={property.imageUrl}
-            alt={property.title}
-            className="w-full h-48 object-cover"
-          />
+          {property.images && property.images.length > 0 && (
+            <img
+              src={property.images[0]}
+              alt={`${property.title} in ${property.location}`}
+              className="w-full h-48 object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
           {property.isNew && (
             <div className="absolute top-2 left-2 bg-eco-green text-white text-xs font-semibold px-2 py-1 rounded">
               New
