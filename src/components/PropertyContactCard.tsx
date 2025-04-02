@@ -15,6 +15,7 @@ interface PropertyContactCardProps {
 }
 
 const PropertyContactCard = ({ property }: PropertyContactCardProps) => {
+  const { t } = useLanguage();
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: "",
@@ -93,14 +94,14 @@ const PropertyContactCard = ({ property }: PropertyContactCardProps) => {
       <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Contact Agent</DialogTitle>
+            <DialogTitle>{t('contact.title')}</DialogTitle>
             <DialogDescription>
-              Fill out the form below and the agent will contact you about this property.
+              {t('contact.description')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleContactSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{t('form.name')}</Label>
               <Input
                 id="name"
                 value={contactForm.name}
