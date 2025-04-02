@@ -1,4 +1,3 @@
-
 import { FileText, Link as LinkIcon } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,6 +36,18 @@ const ExpatResourceCard = ({ resource }: { resource: ResourceProps }) => {
     }
   };
 
+  const handleClick = () => {
+    if (resource.link.startsWith('#')) {
+      const elementId = resource.link.substring(1);
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.open(resource.link, "_blank");
+    }
+  };
+
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
       <CardContent className="p-6 flex-grow">
@@ -55,7 +66,7 @@ const ExpatResourceCard = ({ resource }: { resource: ResourceProps }) => {
         <Button
           variant="outline"
           className="w-full border-eco-green text-eco-green hover:bg-eco-green hover:text-white"
-          onClick={() => window.open(resource.link, "_blank")}
+          onClick={handleClick}
         >
           View Resource
         </Button>
