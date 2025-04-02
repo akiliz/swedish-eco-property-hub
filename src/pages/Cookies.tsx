@@ -1,7 +1,7 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const Cookies = () => {
   const { language } = useLanguage();
