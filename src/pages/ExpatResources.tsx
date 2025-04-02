@@ -11,7 +11,7 @@ import MortgageCalculator from "@/components/MortgageCalculator";
 import expatResources from "@/data/expatResources";
 
 // Define categories for filtering
-const categories = ["All", "Taxation", "Immigration", "Education", "Sustainability", "Legal", "Services", "Financial"];
+const categories = ["All", "Taxation", "Immigration", "Education", "Sustainability", "Legal", "Services", "Financial", "Investment"];
 
 const ExpatResources = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -108,8 +108,8 @@ const ExpatResources = () => {
           </div>
         </section>
 
-        {/* Mortgage Calculator Section */}
-        <section className="py-12 bg-white" id="mortgage-calculator">
+        {/* Mortgage Calculator Section - Improved with better spacing and styling */}
+        <section id="mortgage-calculator" className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8">Swedish Mortgage Calculator</h2>
             <div className="max-w-xl mx-auto border rounded-lg p-6 shadow-md">
