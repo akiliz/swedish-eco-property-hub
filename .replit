@@ -14,3 +14,19 @@ externalPort = 80
 [[ports]]
 localPort = 8081
 externalPort = 8081
+
+[workflows]
+runButton = "Dev"
+
+[[workflows.workflow]]
+name = "Dev"
+author = 41068801
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd src/server && tsx index.ts"
