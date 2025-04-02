@@ -3,6 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import { Property } from './models/Property';
+import { User } from './models/User';
 
 dotenv.config();
 
@@ -12,9 +14,40 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes will be added here
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/swedish-eco-property')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Properties routes
+app.get('/api/properties', async (req, res) => {
+  try {
+    const properties = await Property.find();
+    res.json(properties);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching properties' });
+  }
+});
+
+app.post('/api/properties', async (req, res) => {
+  try {
+    const property = new Property(req.body);
+    await property.save();
+    res.status(201).json(property);
+  } catch (error) {
+    res.status(400).json({ error: 'Error creating property' });
+  }
+});
+
+// Users routes
+app.post('/api/users/register', async (req, res) => {
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    res.status(400).json({ error: 'Error registering user' });
+  }
 });
 
 const PORT = process.env.PORT || 5000;
