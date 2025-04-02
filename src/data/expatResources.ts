@@ -7,7 +7,7 @@ export const expatResources: ResourceProps[] = [
     title: "Swedish Mortgage Calculator",
     description: "Calculate your potential monthly mortgage payments with current Swedish interest rates",
     category: "Financial",
-    link: "/mortgage-calculator",
+    link: "#mortgage-calculator",
     icon: "calculator"
   },
   {
@@ -16,7 +16,7 @@ export const expatResources: ResourceProps[] = [
     description: "Learn about sustainable property investments, energy ratings, and green certifications in Sweden.",
     category: "Investment",
     link: "/eco-investment-guide",
-    icon: "Leaf"
+    icon: "document"
   },
   {
     id: "resource2",
