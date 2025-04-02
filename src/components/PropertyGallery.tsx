@@ -11,6 +11,16 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useState, useCallback, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { useState, useEffect } from "react";
+
+const imageLoader = async (src: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve();
+    img.onerror = reject;
+  });
+};
 
 interface PropertyGalleryProps {
   images: string[];
