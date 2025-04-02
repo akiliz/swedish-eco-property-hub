@@ -6,12 +6,44 @@ import mongoose from 'mongoose';
 import compression from 'compression';
 import { Property } from './models/Property';
 import { User } from './models/User';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
 const app = express();
 
-// Middleware
+// Security middleware
+// Rate limiting: 15 requests per minute
+const limiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  limit: 15, // 15 requests per window
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: 'Too many requests, please try again later.',
+});
+
+// Apply rate limiting to all requests
+app.use(limiter);
+
+// Set security headers with helmet (including CSP)
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "https://*"],
+      connectSrc: ["'self'", "https://*"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+}));
+
+// Standard middleware
 app.use(cors());
 app.use(compression());
 app.use(express.json());
