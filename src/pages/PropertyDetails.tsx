@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
@@ -12,7 +11,6 @@ import PropertyHeader from "@/components/PropertyHeader";
 import PropertyFeatures from "@/components/PropertyFeatures";
 import PropertyDetailInfo from "@/components/PropertyDetailInfo";
 import PropertyContactCard from "@/components/PropertyContactCard";
-import { SEO } from "@/components/SEO";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -32,6 +30,10 @@ const PropertyDetails = () => {
     description: propertyData?.description ? propertyData.description.substring(0, 160) + '...' : 'Eco-friendly property in Sweden',
     keywords: 'eco property, sustainable home, swedish real estate',
   };
+
+  useEffect(() => {
+    document.title = seoData.title;
+  }, [seoData.title]);
 
   if (loading) {
     return (
@@ -67,7 +69,6 @@ const PropertyDetails = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <SEO {...seoData} />
       <div className="container mx-auto px-4 py-8 flex-1">
         <div className="mb-6">
           <Link 
