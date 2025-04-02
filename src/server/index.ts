@@ -37,9 +37,27 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/swedish-e
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Properties routes
-app.get('/api/properties', async (req, res) => {
+// Cache middleware
+const cache = new Map();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+const cacheMiddleware = (duration: number) => (req: any, res: any, next: any) => {
+  const key = req.originalUrl;
+  const cachedResponse = cache.get(key);
+
+  if (cachedResponse && Date.now() - cachedResponse.timestamp < duration) {
+    return res.json(cachedResponse.data);
+  }
+  next();
+};
+
+app.get('/api/properties', cacheMiddleware(CACHE_DURATION), async (req, res) => {
   try {
     const properties = await Property.find();
+    cache.set(req.originalUrl, {
+      data: properties,
+      timestamp: Date.now()
+    });
     res.json(properties);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching properties' });

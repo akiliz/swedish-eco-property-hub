@@ -14,8 +14,17 @@ import PropertyFeatures from "@/components/PropertyFeatures";
 import PropertyDetailInfo from "@/components/PropertyDetailInfo";
 import PropertyContactCard from "@/components/PropertyContactCard";
 
+import { SEO } from "@/components/SEO";
+
 const PropertyDetails = () => {
   const { id } = useParams();
+  const property = properties.find(p => p.id === id);
+
+  const seoData = {
+    title: property ? `${property.title} | EcoHome Sweden` : 'Property Details | EcoHome Sweden',
+    description: property ? `${property.description.substring(0, 160)}...` : 'Eco-friendly property in Sweden',
+    keywords: 'eco property, sustainable home, swedish real estate',
+  };
   const [property, setProperty] = useState<PropertyProps | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
