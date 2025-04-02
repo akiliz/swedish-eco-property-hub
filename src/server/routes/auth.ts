@@ -1,4 +1,3 @@
-
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -28,9 +27,9 @@ router.post('/register', validate(registerSchema), async (req, res) => {
     const user = new User({ email, password: hashedPassword, name });
     await user.save();
     
-    res.status(201).json({ message: 'User registered successfully' });
+    return res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Registration failed' });
+    return res.status(500).json({ error: 'Registration failed' });
   }
 });
 
@@ -105,7 +104,7 @@ router.post('/login', validate(loginSchema), async (req, res) => {
     
     await user.save();
     
-    res.json({ 
+    return res.json({ 
       accessToken, 
       refreshToken,
       user: {
@@ -116,14 +115,12 @@ router.post('/login', validate(loginSchema), async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: 'Login failed' });
+    return res.status(500).json({ error: 'Login failed' });
   }
 });
 
-// Handle token refresh
 router.post('/refresh-token', validate(refreshTokenSchema), refreshAuth);
 
-// Logout (revoke the refresh token)
 router.post('/logout', auth, async (req: AuthRequest, res) => {
   try {
     const refreshToken = req.body.refreshToken;
@@ -140,16 +137,14 @@ router.post('/logout', auth, async (req: AuthRequest, res) => {
     user.refreshTokens = user.refreshTokens.filter(token => token !== refreshToken);
     await user.save();
     
-    res.json({ message: 'Logged out successfully' });
+    return res.json({ message: 'Logged out successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Logout failed' });
+    return res.status(500).json({ error: 'Logout failed' });
   }
 });
 
-// Logout from all devices
 router.post('/logout-all', auth, revokeRefreshTokens);
 
-// Enable MFA
 router.post('/enable-mfa', auth, async (req: AuthRequest, res) => {
   try {
     const user = await User.findById(req.user.userId);
@@ -170,11 +165,10 @@ router.post('/enable-mfa', auth, async (req: AuthRequest, res) => {
       otpauth_url: secret.otpauth_url
     });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to enable MFA' });
+    return res.status(500).json({ error: 'Failed to enable MFA' });
   }
 });
 
-// Verify and activate MFA
 router.post('/verify-mfa', auth, validate(verifyMfaSchema), async (req: AuthRequest, res) => {
   try {
     const { totpCode } = req.body;
@@ -200,13 +194,12 @@ router.post('/verify-mfa', auth, validate(verifyMfaSchema), async (req: AuthRequ
     user.mfaEnabled = true;
     await user.save();
     
-    res.json({ message: 'MFA enabled successfully' });
+    return res.json({ message: 'MFA enabled successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to verify MFA' });
+    return res.status(500).json({ error: 'Failed to verify MFA' });
   }
 });
 
-// Disable MFA
 router.post('/disable-mfa', auth, validate(verifyMfaSchema), async (req: AuthRequest, res) => {
   try {
     const { totpCode } = req.body;
@@ -233,9 +226,9 @@ router.post('/disable-mfa', auth, validate(verifyMfaSchema), async (req: AuthReq
     user.mfaSecret = undefined;
     await user.save();
     
-    res.json({ message: 'MFA disabled successfully' });
+    return res.json({ message: 'MFA disabled successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to disable MFA' });
+    return res.status(500).json({ error: 'Failed to disable MFA' });
   }
 });
 

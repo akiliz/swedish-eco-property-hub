@@ -7,9 +7,11 @@ export const validate = (schema: ZodSchema) => (req: Request, res: Response, nex
     schema.parse(req.body);
     next();
   } catch (error) {
-    return res.status(400).json({
+    res.status(400).json({
       error: 'Validation error',
       details: error.errors
     });
+    // Return next() to satisfy TypeScript's return type requirements
+    return next();
   }
 };

@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import ErrorBoundary from '@/components/ErrorBoundary'; // Added import for ErrorBoundary
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const Index = lazy(() => import("./pages/Index"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -32,7 +32,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 60 * 1000,
-      cacheTime: 5 * 60 * 1000,
+      gcTime: 5 * 60 * 1000,
       refetchOnWindowFocus: false,
     },
   },
@@ -44,7 +44,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <ErrorBoundary> {/* Added ErrorBoundary wrapper */}
+      <ErrorBoundary>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={
@@ -136,7 +136,7 @@ const App = () => (
           } />
         </Routes>
       </BrowserRouter>
-      </ErrorBoundary> {/* Closed ErrorBoundary wrapper */}
+      </ErrorBoundary>
     </TooltipProvider>
     </LanguageProvider>
   </QueryClientProvider>
