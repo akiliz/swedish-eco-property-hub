@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FileText, BookOpen, Globe, MapPin, Info } from "lucide-react";
+import MortgageCalculator from "@/components/MortgageCalculator";
 import expatResources from "@/data/expatResources";
 
 // Define categories for filtering
@@ -104,6 +105,16 @@ const ExpatResources = () => {
                 </Button>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Mortgage Calculator Section */}
+        <section className="py-12 bg-white" id="mortgage-calculator">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-8">Swedish Mortgage Calculator</h2>
+            <div className="max-w-xl mx-auto">
+              <MortgageCalculator />
+            </div>
           </div>
         </section>
 

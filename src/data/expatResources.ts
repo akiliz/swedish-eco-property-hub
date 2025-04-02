@@ -3,6 +3,14 @@ import { ResourceProps } from "@/components/ExpatResourceCard";
 
 export const expatResources: ResourceProps[] = [
   {
+    id: "mortgage-calculator",
+    title: "Swedish Mortgage Calculator",
+    description: "Calculate your potential monthly mortgage payments with current Swedish interest rates",
+    category: "Financial",
+    link: "/expat-resources#mortgage-calculator",
+    icon: "calculator"
+  },
+  {
     id: "resource1",
     title: "Eco Property Investment Guide",
     description: "Learn about sustainable property investments, energy ratings, and green certifications in Sweden.",
