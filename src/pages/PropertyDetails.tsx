@@ -18,15 +18,14 @@ import { SEO } from "@/components/SEO";
 
 const PropertyDetails = () => {
   const { id } = useParams();
-  const property = properties.find(p => p.id === id);
+  const [propertyData, setPropertyData] = useState<PropertyProps | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const seoData = {
-    title: property ? `${property.title} | EcoHome Sweden` : 'Property Details | EcoHome Sweden',
-    description: property ? `${property.description.substring(0, 160)}...` : 'Eco-friendly property in Sweden',
+    title: propertyData ? `${propertyData.title} | EcoHome Sweden` : 'Property Details | EcoHome Sweden',
+    description: propertyData ? `${propertyData.description.substring(0, 160)}...` : 'Eco-friendly property in Sweden',
     keywords: 'eco property, sustainable home, swedish real estate',
   };
-  const [property, setProperty] = useState<PropertyProps | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // Find the property from our data
