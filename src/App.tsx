@@ -42,16 +42,56 @@ const App = () => (
               <Index />
             </Suspense>
           } />
-          <Route path="/properties" element={<Properties />} />
-          <Route path="/properties/:id" element={<PropertyDetails />} />
-          <Route path="/agents" element={<Agents />} />
-          <Route path="/expat-resources" element={<ExpatResources />} />
-          <Route path="/eco-investment-guide" element={<EcoInvestmentGuide />} />
-          <Route path="/list-property" element={<ListProperty />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/residency-guide" element={<ResidencyGuide />} />
-          <Route path="/buying-process" element={<BuyingProcess />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/properties" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <Properties />
+            </Suspense>
+          } />
+          <Route path="/properties/:id" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <PropertyDetails />
+            </Suspense>
+          } />
+          <Route path="/agents" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <Agents />
+            </Suspense>
+          } />
+          <Route path="/expat-resources" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <ExpatResources />
+            </Suspense>
+          } />
+          <Route path="/eco-investment-guide" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <EcoInvestmentGuide />
+            </Suspense>
+          } />
+          <Route path="/list-property" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <ListProperty />
+            </Suspense>
+          } />
+          <Route path="/about" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <About />
+            </Suspense>
+          } />
+          <Route path="/residency-guide" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <ResidencyGuide />
+            </Suspense>
+          } />
+          <Route path="/buying-process" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <BuyingProcess />
+            </Suspense>
+          } />
+          <Route path="*" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <NotFound />
+            </Suspense>
+          } />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
