@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/hooks/use-toast";
 import properties from "@/data/properties";
 import { PropertyProps } from "@/components/PropertyCard";
 import Navbar from "@/components/Navbar";
@@ -13,7 +12,6 @@ import PropertyHeader from "@/components/PropertyHeader";
 import PropertyFeatures from "@/components/PropertyFeatures";
 import PropertyDetailInfo from "@/components/PropertyDetailInfo";
 import PropertyContactCard from "@/components/PropertyContactCard";
-
 import { SEO } from "@/components/SEO";
 
 const PropertyDetails = () => {
@@ -21,25 +19,19 @@ const PropertyDetails = () => {
   const [propertyData, setPropertyData] = useState<PropertyProps | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  useEffect(() => {
+    const foundProperty = properties.find(p => p.id === id);
+    if (foundProperty) {
+      setPropertyData(foundProperty);
+    }
+    setLoading(false);
+  }, [id]);
+
   const seoData = {
     title: propertyData ? `${propertyData.title} | EcoHome Sweden` : 'Property Details | EcoHome Sweden',
     description: propertyData ? `${propertyData.description.substring(0, 160)}...` : 'Eco-friendly property in Sweden',
     keywords: 'eco property, sustainable home, swedish real estate',
   };
-
-  useEffect(() => {
-    // Find the property from our data
-    const propertyData = properties.find(p => p.id === id);
-    
-    if (propertyData) {
-      setProperty(propertyData);
-      setLoading(false);
-    } else {
-      setLoading(false);
-      // Log that property was not found
-      console.error(`Property with id ${id} not found`);
-    }
-  }, [id]);
 
   if (loading) {
     return (
@@ -49,7 +41,7 @@ const PropertyDetails = () => {
     );
   }
 
-  if (!property) {
+  if (!propertyData) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
@@ -70,12 +62,12 @@ const PropertyDetails = () => {
     );
   }
 
-  const propertyImages = property.images || [property.imageUrl];
+  const propertyImages = propertyData.images || [propertyData.imageUrl];
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
+      <SEO {...seoData} />
       <div className="container mx-auto px-4 py-8 flex-1">
         <div className="mb-6">
           <Link 
@@ -89,19 +81,19 @@ const PropertyDetails = () => {
         
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <PropertyHeader property={property} />
+            <PropertyHeader property={propertyData} />
             
             <div className="mb-6">
-              <PropertyGallery images={propertyImages} title={property.title} />
+              <PropertyGallery images={propertyImages} title={propertyData.title} />
             </div>
             
-            <PropertyFeatures property={property} />
+            <PropertyFeatures property={propertyData} />
             
-            <PropertyDetailInfo property={property} />
+            <PropertyDetailInfo property={propertyData} />
           </div>
           
           <div>
-            <PropertyContactCard property={property} />
+            <PropertyContactCard property={propertyData} />
           </div>
         </div>
       </div>
