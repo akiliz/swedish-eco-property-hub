@@ -10,7 +10,6 @@ import { Calendar } from "lucide-react";
 import { PropertyProps } from "@/components/PropertyCard";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 interface PropertyContactCardProps {
   property: PropertyProps;
