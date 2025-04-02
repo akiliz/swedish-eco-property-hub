@@ -14,6 +14,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
+import authRoutes from './routes/auth';
+import contactRoutes from './routes/contact';
+
+app.use('/api/auth', authRoutes);
+app.use('/api/contact', contactRoutes);
+
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/swedish-eco-property')
   .then(() => console.log('Connected to MongoDB'))
