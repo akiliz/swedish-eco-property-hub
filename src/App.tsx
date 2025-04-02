@@ -22,6 +22,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const GDPR = lazy(() => import("./pages/GDPR"));
+const MortgageCalculator = lazy(() => import("./components/MortgageCalculator"));
 
 
 const queryClient = new QueryClient({
@@ -110,6 +111,18 @@ const App = () => (
           <Route path="/gdpr" element={
             <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
               <GDPR />
+            </Suspense>
+          } />
+          <Route path="/mortgage-calculator" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <div className="min-h-screen flex flex-col">
+                <Navbar />
+                <main className="flex-grow container mx-auto px-4 py-8">
+                  <h1 className="text-3xl font-bold mb-8">Mortgage Calculator</h1>
+                  <MortgageCalculator />
+                </main>
+                <Footer />
+              </div>
             </Suspense>
           } />
           <Route path="*" element={
