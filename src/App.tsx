@@ -18,6 +18,11 @@ const ListProperty = lazy(() => import("./pages/ListProperty"));
 const About = lazy(() => import("./pages/About"));
 const ResidencyGuide = lazy(() => import("@/pages/ResidencyGuide"));
 const BuyingProcess = lazy(() => import("@/pages/BuyingProcess"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Cookies = lazy(() => import("./pages/Cookies"));
+const GDPR = lazy(() => import("./pages/GDPR"));
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -85,6 +90,26 @@ const App = () => (
           <Route path="/buying-process" element={
             <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
               <BuyingProcess />
+            </Suspense>
+          } />
+          <Route path="/privacy" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <Privacy />
+            </Suspense>
+          } />
+          <Route path="/terms" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <Terms />
+            </Suspense>
+          } />
+          <Route path="/cookies" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <Cookies />
+            </Suspense>
+          } />
+          <Route path="/gdpr" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <GDPR />
             </Suspense>
           } />
           <Route path="*" element={
