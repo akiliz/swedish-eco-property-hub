@@ -15,3 +15,4 @@ export { default as PropertyGallery } from './PropertyGallery';
 export { default as PropertyHeader } from './PropertyHeader';
 export { default as SearchFilters } from './SearchFilters';
 export { SubscriptionPlans } from './SubscriptionPlans';
+export { default as ServerGuide } from './ServerGuide';
