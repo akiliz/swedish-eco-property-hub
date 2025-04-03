@@ -21,7 +21,7 @@ const Auth = () => {
   
   // Redirect if already authenticated
   if (isAuthenticated) {
-    navigate("/");
+    navigate("/admin");
     return null;
   }
 
@@ -35,7 +35,7 @@ const Auth = () => {
       title: "Authentication successful",
       description: "You have been successfully logged in.",
     });
-    navigate("/");
+    navigate("/admin");
   };
 
   return (

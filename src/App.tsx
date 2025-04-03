@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,6 +29,7 @@ const GDPR = lazy(() => import("./pages/GDPR"));
 const MortgageCalculator = lazy(() => import("./components/MortgageCalculator"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Profile = lazy(() => import("./pages/Profile"));
+const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -141,6 +141,16 @@ const App = () => (
           <Route path="/profile" element={
             <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
               <Profile />
+            </Suspense>
+          } />
+          <Route path="/admin" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <AdminDashboard />
+            </Suspense>
+          } />
+          <Route path="/admin/*" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <AdminDashboard />
             </Suspense>
           } />
           <Route path="*" element={

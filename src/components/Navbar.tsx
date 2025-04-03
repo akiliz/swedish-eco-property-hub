@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Globe, Menu, X, User, LogOut } from "lucide-react";
+import { Globe, Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
@@ -99,6 +99,10 @@ const Navbar = () => {
                 <DropdownMenuItem onClick={() => navigate("/profile")}>
                   {language === "en" ? "My Profile" : "Min Profil"}
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/admin")}>
+                  <LayoutDashboard className="h-4 w-4 mr-2" />
+                  {language === "en" ? "Admin Dashboard" : "Administratörspanel"}
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/saved-properties")}>
                   {language === "en" ? "Saved Properties" : "Sparade Fastigheter"}
                 </DropdownMenuItem>
@@ -173,6 +177,12 @@ const Navbar = () => {
                 onClick={() => handleNavigation("/profile")}
               >
                 {language === "en" ? "My Profile" : "Min Profil"}
+              </button>
+              <button
+                className="block w-full text-left py-2 text-foreground hover:text-eco-green transition-colors"
+                onClick={() => handleNavigation("/admin")}
+              >
+                {language === "en" ? "Admin Dashboard" : "Administratörspanel"}
               </button>
               <button
                 className="block w-full text-left py-2 text-destructive hover:text-destructive/80 transition-colors"
