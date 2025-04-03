@@ -6,12 +6,12 @@ export const validate = (schema: ZodSchema) => (req: Request, res: Response, nex
   try {
     schema.parse(req.body);
     next();
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({
       error: 'Validation error',
       details: error.errors
     });
-    // Return next() to satisfy TypeScript's return type requirements
-    return next();
+    // Don't call next() after sending a response
+    return;
   }
 };
