@@ -1,3 +1,4 @@
+
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -119,7 +120,10 @@ router.post('/login', validate(loginSchema), async (req, res) => {
   }
 });
 
-router.post('/refresh-token', validate(refreshTokenSchema), refreshAuth);
+// Use the refreshAuth middleware function directly
+router.post('/refresh-token', validate(refreshTokenSchema), async (req, res) => {
+  await refreshAuth(req, res);
+});
 
 router.post('/logout', auth, async (req: AuthRequest, res) => {
   try {
@@ -143,7 +147,13 @@ router.post('/logout', auth, async (req: AuthRequest, res) => {
   }
 });
 
-router.post('/logout-all', auth, revokeRefreshTokens);
+router.post('/logout-all', auth, async (req: AuthRequest, res) => {
+  try {
+    await revokeRefreshTokens(req, res);
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to logout all sessions' });
+  }
+});
 
 router.post('/enable-mfa', auth, async (req: AuthRequest, res) => {
   try {
@@ -160,7 +170,7 @@ router.post('/enable-mfa', auth, async (req: AuthRequest, res) => {
     await user.save();
     
     // Return the secret and otpauth URL for QR code generation
-    res.json({
+    return res.json({
       secret: secret.base32,
       otpauth_url: secret.otpauth_url
     });

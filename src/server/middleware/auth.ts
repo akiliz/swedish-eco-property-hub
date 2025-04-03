@@ -64,9 +64,9 @@ export const refreshAuth = async (req: Request, res: Response) => {
     user.refreshTokens.push(newRefreshToken);
     await user.save();
     
-    res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+    return res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
   } catch (error) {
-    res.status(401).json({ error: 'Invalid refresh token' });
+    return res.status(401).json({ error: 'Invalid refresh token' });
   }
 };
 
@@ -84,8 +84,8 @@ export const revokeRefreshTokens = async (req: AuthRequest, res: Response) => {
     user.refreshTokens = [];
     await user.save();
     
-    res.json({ message: 'All sessions revoked successfully' });
+    return res.json({ message: 'All sessions revoked successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to revoke sessions' });
+    return res.status(500).json({ error: 'Failed to revoke sessions' });
   }
 };

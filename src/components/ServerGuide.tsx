@@ -47,7 +47,7 @@ const ServerGuide = () => {
         </div>
       </CardContent>
       <CardFooter>
-        <Button variant="outline" className="mr-2" onClick={() => window.open('https://github.com/your-username/your-repo', '_blank')}>
+        <Button variant="outline" className="mr-2" onClick={() => window.open('https://github.com/your-repo-url', '_blank')}>
           View on GitHub
         </Button>
         <Button onClick={() => window.open('http://localhost:5000/api/properties', '_blank')}>
