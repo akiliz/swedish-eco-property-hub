@@ -1,22 +1,24 @@
 
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
+import { useApi } from './useApi';
 
 interface AuthContextType {
   token: string | null;
   login: (token: string) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   token: null,
   login: () => {},
-  logout: () => {},
+  logout: async () => {},
   isAuthenticated: false
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
+  const { logout: apiLogout } = useApi();
   
   // Check for saved token on mount
   useEffect(() => {
@@ -31,9 +33,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(newToken);
   };
   
-  const logout = () => {
-    localStorage.removeItem('auth_token');
-    setToken(null);
+  const logout = async () => {
+    try {
+      await apiLogout();
+    } finally {
+      localStorage.removeItem('auth_token');
+      setToken(null);
+    }
   };
   
   return (

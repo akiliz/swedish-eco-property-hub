@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +7,7 @@ import Footer from "@/components/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AuthProvider } from "@/hooks/useAuth";
 import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -26,7 +28,8 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const GDPR = lazy(() => import("./pages/GDPR"));
 const MortgageCalculator = lazy(() => import("./components/MortgageCalculator"));
-
+const Auth = lazy(() => import("./pages/Auth"));
+const Profile = lazy(() => import("./pages/Profile"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +44,7 @@ const queryClient = new QueryClient({
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
+    <AuthProvider>
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -129,6 +133,16 @@ const App = () => (
               </div>
             </Suspense>
           } />
+          <Route path="/auth" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <Auth />
+            </Suspense>
+          } />
+          <Route path="/profile" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <Profile />
+            </Suspense>
+          } />
           <Route path="*" element={
             <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
               <NotFound />
@@ -138,6 +152,7 @@ const App = () => (
       </BrowserRouter>
       </ErrorBoundary>
     </TooltipProvider>
+    </AuthProvider>
     </LanguageProvider>
   </QueryClientProvider>
 );
