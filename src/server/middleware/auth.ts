@@ -14,7 +14,8 @@ export const auth = async (req: AuthRequest, res: Response, next: NextFunction) 
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    return res.status(401).json({ error: 'Authentication required' });
+    res.status(401).json({ error: 'Authentication required' });
+    return;
   }
 
   try {
@@ -44,7 +45,8 @@ export const refreshAuth = async (req: Request, res: Response) => {
   const refreshToken = req.body.refreshToken;
   
   if (!refreshToken) {
-    return res.status(401).json({ error: 'Refresh token required' });
+    res.status(401).json({ error: 'Refresh token required' });
+    return;
   }
   
   try {
@@ -52,7 +54,8 @@ export const refreshAuth = async (req: Request, res: Response) => {
     const user = await User.findById(decoded.userId);
     
     if (!user || !user.refreshTokens.includes(refreshToken)) {
-      return res.status(401).json({ error: 'Invalid refresh token' });
+      res.status(401).json({ error: 'Invalid refresh token' });
+      return;
     }
     
     // Create new tokens
@@ -64,28 +67,30 @@ export const refreshAuth = async (req: Request, res: Response) => {
     user.refreshTokens.push(newRefreshToken);
     await user.save();
     
-    return res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+    res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
   } catch (error) {
-    return res.status(401).json({ error: 'Invalid refresh token' });
+    res.status(401).json({ error: 'Invalid refresh token' });
   }
 };
 
 export const revokeRefreshTokens = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user || !req.user.userId) {
-      return res.status(401).json({ error: 'Authentication required' });
+      res.status(401).json({ error: 'Authentication required' });
+      return;
     }
     
     const user = await User.findById(req.user.userId);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
     
     user.refreshTokens = [];
     await user.save();
     
-    return res.json({ message: 'All sessions revoked successfully' });
+    res.json({ message: 'All sessions revoked successfully' });
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to revoke sessions' });
+    res.status(500).json({ error: 'Failed to revoke sessions' });
   }
 };

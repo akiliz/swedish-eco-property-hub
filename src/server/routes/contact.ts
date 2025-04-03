@@ -19,10 +19,10 @@ router.post('/property-inquiry', auth, validate(propertyInquirySchema), async (r
     // Here you would typically save to database and/or send email
     
     // Send successful response
-    return res.status(200).json({ message: 'Inquiry sent successfully' });
+    res.status(200).json({ message: 'Inquiry sent successfully' });
   } catch (error) {
     // If we get here, it's a server error
-    return res.status(500).json({ error: 'Failed to send inquiry' });
+    res.status(500).json({ error: 'Failed to send inquiry' });
   }
 });
 

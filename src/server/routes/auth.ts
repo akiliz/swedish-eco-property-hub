@@ -21,16 +21,17 @@ router.post('/register', validate(registerSchema), async (req, res) => {
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: 'Email already in use' });
+      res.status(400).json({ error: 'Email already in use' });
+      return;
     }
     
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({ email, password: hashedPassword, name });
     await user.save();
     
-    return res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    return res.status(500).json({ error: 'Registration failed' });
+    res.status(500).json({ error: 'Registration failed' });
   }
 });
 
@@ -41,15 +42,17 @@ router.post('/login', validate(loginSchema), async (req, res) => {
     
     // User not found
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      res.status(401).json({ error: 'Invalid credentials' });
+      return;
     }
     
     // Check if account is locked
     if (user.lockUntil && user.lockUntil > new Date()) {
-      return res.status(403).json({ 
+      res.status(403).json({ 
         error: 'Account locked', 
         lockRemaining: Math.ceil((user.lockUntil.getTime() - Date.now()) / 1000) 
       });
+      return;
     }
     
     // Verify password
@@ -64,13 +67,15 @@ router.post('/login', validate(loginSchema), async (req, res) => {
       }
       
       await user.save();
-      return res.status(401).json({ error: 'Invalid credentials' });
+      res.status(401).json({ error: 'Invalid credentials' });
+      return;
     }
     
     // Check MFA if enabled
     if (user.mfaEnabled) {
       if (!totpCode) {
-        return res.status(400).json({ error: 'MFA code required', requiresMfa: true });
+        res.status(400).json({ error: 'MFA code required', requiresMfa: true });
+        return;
       }
       
       const verified = speakeasy.totp.verify({
@@ -81,7 +86,8 @@ router.post('/login', validate(loginSchema), async (req, res) => {
       });
       
       if (!verified) {
-        return res.status(401).json({ error: 'Invalid MFA code' });
+        res.status(401).json({ error: 'Invalid MFA code' });
+        return;
       }
     }
     
@@ -105,7 +111,7 @@ router.post('/login', validate(loginSchema), async (req, res) => {
     
     await user.save();
     
-    return res.json({ 
+    res.json({ 
       accessToken, 
       refreshToken,
       user: {
@@ -116,50 +122,49 @@ router.post('/login', validate(loginSchema), async (req, res) => {
       }
     });
   } catch (error) {
-    return res.status(500).json({ error: 'Login failed' });
+    res.status(500).json({ error: 'Login failed' });
   }
 });
 
 // Use the refreshAuth middleware function directly
-router.post('/refresh-token', validate(refreshTokenSchema), async (req, res) => {
-  await refreshAuth(req, res);
+router.post('/refresh-token', validate(refreshTokenSchema), (req, res) => {
+  refreshAuth(req, res);
 });
 
 router.post('/logout', auth, async (req: AuthRequest, res) => {
   try {
     const refreshToken = req.body.refreshToken;
     if (!refreshToken || !req.user?.userId) {
-      return res.status(400).json({ error: 'Refresh token required' });
+      res.status(400).json({ error: 'Refresh token required' });
+      return;
     }
     
     const user = await User.findById(req.user.userId);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
     
     // Remove the specific refresh token
     user.refreshTokens = user.refreshTokens.filter(token => token !== refreshToken);
     await user.save();
     
-    return res.json({ message: 'Logged out successfully' });
+    res.json({ message: 'Logged out successfully' });
   } catch (error) {
-    return res.status(500).json({ error: 'Logout failed' });
+    res.status(500).json({ error: 'Logout failed' });
   }
 });
 
-router.post('/logout-all', auth, async (req: AuthRequest, res) => {
-  try {
-    await revokeRefreshTokens(req, res);
-  } catch (error) {
-    return res.status(500).json({ error: 'Failed to logout all sessions' });
-  }
+router.post('/logout-all', auth, (req: AuthRequest, res) => {
+  revokeRefreshTokens(req, res);
 });
 
 router.post('/enable-mfa', auth, async (req: AuthRequest, res) => {
   try {
     const user = await User.findById(req.user.userId);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
     
     // Generate new MFA secret
@@ -170,12 +175,12 @@ router.post('/enable-mfa', auth, async (req: AuthRequest, res) => {
     await user.save();
     
     // Return the secret and otpauth URL for QR code generation
-    return res.json({
+    res.json({
       secret: secret.base32,
       otpauth_url: secret.otpauth_url
     });
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to enable MFA' });
+    res.status(500).json({ error: 'Failed to enable MFA' });
   }
 });
 
@@ -185,7 +190,8 @@ router.post('/verify-mfa', auth, validate(verifyMfaSchema), async (req: AuthRequ
     const user = await User.findById(req.user.userId);
     
     if (!user || !user.mfaSecret) {
-      return res.status(400).json({ error: 'MFA not initialized' });
+      res.status(400).json({ error: 'MFA not initialized' });
+      return;
     }
     
     // Verify the code
@@ -197,16 +203,17 @@ router.post('/verify-mfa', auth, validate(verifyMfaSchema), async (req: AuthRequ
     });
     
     if (!verified) {
-      return res.status(401).json({ error: 'Invalid verification code' });
+      res.status(401).json({ error: 'Invalid verification code' });
+      return;
     }
     
     // Activate MFA
     user.mfaEnabled = true;
     await user.save();
     
-    return res.json({ message: 'MFA enabled successfully' });
+    res.json({ message: 'MFA enabled successfully' });
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to verify MFA' });
+    res.status(500).json({ error: 'Failed to verify MFA' });
   }
 });
 
@@ -216,7 +223,8 @@ router.post('/disable-mfa', auth, validate(verifyMfaSchema), async (req: AuthReq
     const user = await User.findById(req.user.userId);
     
     if (!user || !user.mfaEnabled || !user.mfaSecret) {
-      return res.status(400).json({ error: 'MFA not enabled' });
+      res.status(400).json({ error: 'MFA not enabled' });
+      return;
     }
     
     // Verify the code one last time
@@ -228,7 +236,8 @@ router.post('/disable-mfa', auth, validate(verifyMfaSchema), async (req: AuthReq
     });
     
     if (!verified) {
-      return res.status(401).json({ error: 'Invalid verification code' });
+      res.status(401).json({ error: 'Invalid verification code' });
+      return;
     }
     
     // Disable MFA
@@ -236,9 +245,9 @@ router.post('/disable-mfa', auth, validate(verifyMfaSchema), async (req: AuthReq
     user.mfaSecret = undefined;
     await user.save();
     
-    return res.json({ message: 'MFA disabled successfully' });
+    res.json({ message: 'MFA disabled successfully' });
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to disable MFA' });
+    res.status(500).json({ error: 'Failed to disable MFA' });
   }
 });
 
