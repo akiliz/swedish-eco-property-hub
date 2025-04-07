@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,6 +31,11 @@ const MortgageCalculator = lazy(() => import("./components/MortgageCalculator"))
 const Auth = lazy(() => import("./pages/Auth"));
 const Profile = lazy(() => import("./pages/Profile"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
+const AdminUsers = lazy(() => import("./pages/admin/Users"));
+const AdminProperties = lazy(() => import("./pages/admin/Properties"));
+const AdminInquiries = lazy(() => import("./pages/admin/Inquiries"));
+const AdminContent = lazy(() => import("./pages/admin/Content"));
+const AdminSettings = lazy(() => import("./pages/admin/Settings"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -148,9 +154,29 @@ const App = () => (
               <AdminDashboard />
             </Suspense>
           } />
-          <Route path="/admin/*" element={
+          <Route path="/admin/users" element={
             <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
-              <AdminDashboard />
+              <AdminUsers />
+            </Suspense>
+          } />
+          <Route path="/admin/properties" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <AdminProperties />
+            </Suspense>
+          } />
+          <Route path="/admin/inquiries" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <AdminInquiries />
+            </Suspense>
+          } />
+          <Route path="/admin/content" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <AdminContent />
+            </Suspense>
+          } />
+          <Route path="/admin/settings" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <AdminSettings />
             </Suspense>
           } />
           <Route path="*" element={
