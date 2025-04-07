@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User, Shield } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -19,11 +20,19 @@ const formSchema = z.object({
     .regex(/[a-z]/, "Password must contain at least one lowercase letter")
     .regex(/[0-9]/, "Password must contain at least one number")
     .regex(/[^a-zA-Z0-9]/, "Password must contain at least one special character"),
-  confirmPassword: z.string()
+  confirmPassword: z.string(),
+  adminAccount: z.boolean().default(false),
+  adminCode: z.string().optional()
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
-});
+}).refine(
+  data => !data.adminAccount || data.adminCode === "admin123",
+  {
+    message: "Invalid admin code",
+    path: ["adminCode"],
+  }
+);
 
 type RegisterFormValues = z.infer<typeof formSchema>;
 
@@ -45,13 +54,24 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       email: "",
       password: "",
       confirmPassword: "",
+      adminAccount: false,
+      adminCode: "",
     },
   });
+
+  const watchAdminAccount = form.watch("adminAccount");
 
   const onSubmit = async (values: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      await register(values.email, values.password, values.name, values.confirmPassword);
+      // Pass the admin role if admin account is selected
+      await register(
+        values.email, 
+        values.password, 
+        values.name, 
+        values.confirmPassword, 
+        values.adminAccount ? 'admin' : 'user'
+      );
       
       toast({
         title: "Registration successful",
@@ -184,6 +204,51 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="adminAccount"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>Admin Account</FormLabel>
+                <p className="text-sm text-muted-foreground">
+                  Register as an administrator (requires admin code)
+                </p>
+              </div>
+            </FormItem>
+          )}
+        />
+
+        {watchAdminAccount && (
+          <FormField
+            control={form.control}
+            name="adminCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Admin Code</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="password"
+                      placeholder="Enter admin code"
+                      className="pl-10"
+                      {...field}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Creating account..." : "Register"}

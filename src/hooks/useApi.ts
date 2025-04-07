@@ -99,11 +99,11 @@ export const useApi = () => {
     return data;
   };
 
-  const register = async (email: string, password: string, name: string, confirmPassword: string) => {
+  const register = async (email: string, password: string, name: string, confirmPassword: string, role: string = 'user') => {
     const response = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, name, confirmPassword }),
+      body: JSON.stringify({ email, password, name, confirmPassword, role }),
     });
     
     const data = await response.json();
