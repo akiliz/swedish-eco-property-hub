@@ -1,7 +1,9 @@
-
 import { useState, useEffect } from 'react';
 
-const API_URL = 'http://localhost:5000/api';
+// Update API_URL to use the current hostname with path or default to localhost
+const API_URL = typeof window !== 'undefined' 
+  ? `${window.location.protocol}//${window.location.hostname}:5000/api` 
+  : 'http://localhost:5000/api';
 
 interface AuthTokens {
   accessToken: string;
@@ -49,70 +51,97 @@ export const useApi = () => {
   const fetchWithAuth = async (endpoint: string, options: RequestInit = {}) => {
     const headers = await getAuthHeaders();
     
-    const response = await fetch(`${API_URL}${endpoint}`, {
-      ...options,
-      headers: {
-        ...options.headers,
-        ...headers,
-        'Content-Type': 'application/json',
-      },
-    });
-    
-    // Check for a new token in the response headers
-    const newToken = response.headers.get('X-New-Token');
-    if (newToken && tokens) {
-      saveTokens({
-        accessToken: newToken,
-        refreshToken: tokens.refreshToken,
+    try {
+      const response = await fetch(`${API_URL}${endpoint}`, {
+        ...options,
+        headers: {
+          ...options.headers,
+          ...headers,
+          'Content-Type': 'application/json',
+        },
       });
+      
+      // Check for a new token in the response headers
+      const newToken = response.headers.get('X-New-Token');
+      if (newToken && tokens) {
+        saveTokens({
+          accessToken: newToken,
+          refreshToken: tokens.refreshToken,
+        });
+      }
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'API request failed');
+      }
+      
+      return response.json();
+    } catch (error: any) {
+      if (error.message === 'Failed to fetch' || error instanceof TypeError) {
+        throw new Error('Network error: Unable to connect to the server. Please ensure the API server is running.');
+      }
+      throw error;
     }
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'API request failed');
-    }
-    
-    return response.json();
   };
 
   // Auth API calls
   const login = async (email: string, password: string, totpCode?: string) => {
-    const response = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, totpCode }),
-    });
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.error || 'Login failed');
-    }
-    
-    if (data.accessToken && data.refreshToken) {
-      saveTokens({
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, totpCode }),
       });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+      
+      if (data.accessToken && data.refreshToken) {
+        saveTokens({
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+        });
+      }
+      
+      return data;
+    } catch (error: any) {
+      if (error.message === 'Failed to fetch' || error instanceof TypeError) {
+        throw new Error('Network error: Unable to connect to the server. Please ensure the API server is running.');
+      }
+      throw error;
     }
-    
-    return data;
   };
 
   const register = async (email: string, password: string, name: string, confirmPassword: string, role: string = 'user') => {
-    const response = await fetch(`${API_URL}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, name, confirmPassword, role }),
-    });
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.error || 'Registration failed');
+    try {
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, name, confirmPassword, role }),
+      });
+      
+      // Check if the response exists before trying to parse it
+      if (!response) {
+        throw new Error('Network error: No response received from the server');
+      }
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Registration failed');
+      }
+      
+      return data;
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      if (error.message === 'Failed to fetch' || error instanceof TypeError) {
+        throw new Error('Network error: Unable to connect to the server. Please ensure the API server is running at ' + API_URL);
+      }
+      throw error;
     }
-    
-    return data;
   };
 
   const logout = async () => {
