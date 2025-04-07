@@ -2,6 +2,9 @@
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { useApi } from './useApi';
 
+// Add a development bypass flag
+const DEV_MODE_BYPASS_AUTH = true; // Set to true for development, false for production
+
 interface AuthContextType {
   token: string | null;
   login: (token: string) => void;
@@ -17,14 +20,17 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
+  // When in dev bypass mode, always consider authenticated
+  const [token, setToken] = useState<string | null>(DEV_MODE_BYPASS_AUTH ? "dev_token" : null);
   const { logout: apiLogout } = useApi();
   
-  // Check for saved token on mount
+  // Check for saved token on mount (only if not in bypass mode)
   useEffect(() => {
-    const savedToken = localStorage.getItem('auth_token');
-    if (savedToken) {
-      setToken(savedToken);
+    if (!DEV_MODE_BYPASS_AUTH) {
+      const savedToken = localStorage.getItem('auth_token');
+      if (savedToken) {
+        setToken(savedToken);
+      }
     }
   }, []);
   
@@ -34,11 +40,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
   
   const logout = async () => {
-    try {
-      await apiLogout();
-    } finally {
-      localStorage.removeItem('auth_token');
-      setToken(null);
+    if (!DEV_MODE_BYPASS_AUTH) {
+      try {
+        await apiLogout();
+      } finally {
+        localStorage.removeItem('auth_token');
+        setToken(null);
+      }
+    } else {
+      // In dev mode, just reset to the dev token
+      setToken("dev_token");
     }
   };
   
@@ -47,7 +58,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       token, 
       login, 
       logout, 
-      isAuthenticated: !!token 
+      // Always authenticated in dev bypass mode
+      isAuthenticated: DEV_MODE_BYPASS_AUTH ? true : !!token 
     }}>
       {children}
     </AuthContext.Provider>

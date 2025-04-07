@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,6 +11,9 @@ import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 
+// Dev mode bypass flag - make sure it matches the one in useAuth.tsx
+const DEV_MODE_BYPASS_AUTH = true;
+
 const Auth = () => {
   const [activeTab, setActiveTab] = useState<string>("login");
   const [requiresMfa, setRequiresMfa] = useState<boolean>(false);
@@ -18,6 +21,13 @@ const Auth = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  
+  // Auto-redirect in dev mode
+  useEffect(() => {
+    if (DEV_MODE_BYPASS_AUTH) {
+      navigate("/admin");
+    }
+  }, [navigate]);
   
   // Redirect if already authenticated
   if (isAuthenticated) {

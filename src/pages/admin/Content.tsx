@@ -10,7 +10,7 @@ const AdminContent = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if not authenticated
+  // Redirect if not authenticated (will always be authenticated in dev mode)
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/auth");
