@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -18,8 +17,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Save, Building, MapPin } from "lucide-react";
 import { toast } from "sonner";
+import EnergyClassDropdown from "@/components/admin/EnergyClassDropdown";
 
-// Property form schema with validations
 const propertyFormSchema = z.object({
   title: z.string().min(3, { message: "Title must be at least 3 characters" }),
   type: z.string({ required_error: "Property type is required" }),
@@ -39,7 +38,6 @@ const propertyFormSchema = z.object({
 
 type PropertyFormValues = z.infer<typeof propertyFormSchema>;
 
-// Mock property data - would come from API in production
 const mockProperties = [
   { 
     id: "1", 
@@ -133,7 +131,6 @@ const mockProperties = [
   },
 ];
 
-// Available property certifications
 const availableCertifications = [
   "Nordic Swan",
   "BREEAM", 
@@ -151,7 +148,6 @@ const EditProperty = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCertifications, setSelectedCertifications] = useState<string[]>([]);
 
-  // Initialize form
   const form = useForm<PropertyFormValues>({
     resolver: zodResolver(propertyFormSchema),
     defaultValues: {
@@ -172,9 +168,7 @@ const EditProperty = () => {
     }
   });
 
-  // Fetch property data when component mounts
   useEffect(() => {
-    // In production, this would be an API call
     const fetchProperty = () => {
       setLoading(true);
       try {
@@ -183,7 +177,6 @@ const EditProperty = () => {
           setProperty(foundProperty);
           setSelectedCertifications(foundProperty.certifications || []);
           
-          // Set form values
           form.reset({
             title: foundProperty.title,
             type: foundProperty.type,
@@ -215,11 +208,9 @@ const EditProperty = () => {
     fetchProperty();
   }, [id, navigate, form]);
 
-  // Handle form submission
   const onSubmit = (data: PropertyFormValues) => {
     try {
       console.log("Form data submitted:", data);
-      // In production, this would be an API call to update the property
       toast.success("Property updated successfully");
       navigate("/admin/properties");
     } catch (error) {
@@ -228,7 +219,6 @@ const EditProperty = () => {
     }
   };
 
-  // Toggle certification selection
   const toggleCertification = (cert: string) => {
     setSelectedCertifications(prev => {
       if (prev.includes(cert)) {
@@ -243,7 +233,6 @@ const EditProperty = () => {
     });
   };
 
-  // Redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/auth");
@@ -300,7 +289,6 @@ const EditProperty = () => {
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Basic Information */}
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Basic Information</h3>
                         
@@ -384,7 +372,6 @@ const EditProperty = () => {
                         />
                       </div>
 
-                      {/* Location */}
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Location</h3>
                         
@@ -417,7 +404,6 @@ const EditProperty = () => {
                         />
                       </div>
 
-                      {/* Features */}
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Features</h3>
                         
@@ -464,7 +450,6 @@ const EditProperty = () => {
                         />
                       </div>
 
-                      {/* Sustainability */}
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Sustainability</h3>
                         
@@ -474,26 +459,12 @@ const EditProperty = () => {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Energy Class</FormLabel>
-                              <Select 
-                                onValueChange={field.onChange} 
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select energy class" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="A+">A+</SelectItem>
-                                  <SelectItem value="A">A</SelectItem>
-                                  <SelectItem value="B">B</SelectItem>
-                                  <SelectItem value="C">C</SelectItem>
-                                  <SelectItem value="D">D</SelectItem>
-                                  <SelectItem value="E">E</SelectItem>
-                                  <SelectItem value="F">F</SelectItem>
-                                  <SelectItem value="G">G</SelectItem>
-                                </SelectContent>
-                              </Select>
+                              <FormControl>
+                                <EnergyClassDropdown 
+                                  value={field.value} 
+                                  onChange={field.onChange}
+                                />
+                              </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
@@ -521,7 +492,6 @@ const EditProperty = () => {
                         </div>
                       </div>
 
-                      {/* Additional Information */}
                       <div className="md:col-span-2 space-y-4">
                         <h3 className="text-lg font-semibold">Additional Information</h3>
                         
