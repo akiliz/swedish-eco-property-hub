@@ -101,6 +101,11 @@ const AdminProperties = () => {
   // Get unique property types for filter
   const propertyTypes = Array.from(new Set(mockProperties.map(p => p.type)));
 
+  // Handle edit property
+  const handleEdit = (propertyId: number) => {
+    navigate(`/admin/properties/edit/${propertyId}`);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -215,7 +220,10 @@ const AdminProperties = () => {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem className="flex items-center gap-2">
+                              <DropdownMenuItem 
+                                className="flex items-center gap-2"
+                                onClick={() => handleEdit(property.id)}
+                              >
                                 <Edit className="h-4 w-4" /> Edit
                               </DropdownMenuItem>
                               <DropdownMenuItem className="flex items-center gap-2" 

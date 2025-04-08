@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -36,6 +35,7 @@ const AdminProperties = lazy(() => import("./pages/admin/Properties"));
 const AdminInquiries = lazy(() => import("./pages/admin/Inquiries"));
 const AdminContent = lazy(() => import("./pages/admin/Content"));
 const AdminSettings = lazy(() => import("./pages/admin/Settings"));
+const EditProperty = lazy(() => import("./pages/admin/EditProperty"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -162,6 +162,11 @@ const App = () => (
           <Route path="/admin/properties" element={
             <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
               <AdminProperties />
+            </Suspense>
+          } />
+          <Route path="/admin/properties/edit/:id" element={
+            <Suspense fallback={<div className="w-full h-screen"><Skeleton className="h-full w-full" /></div>}>
+              <EditProperty />
             </Suspense>
           } />
           <Route path="/admin/inquiries" element={
