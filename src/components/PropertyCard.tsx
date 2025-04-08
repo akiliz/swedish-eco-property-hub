@@ -13,13 +13,20 @@ export interface PropertyProps {
   bedrooms?: number;
   bathrooms?: number;
   area: number;
-  energyClass: "A" | "B" | "C" | "D" | "E" | "F" | "G";
+  energyClass: string;
   certifications: string[];
+  sustainabilityFeatures?: string[];
   imageUrl: string;
   images?: string[];
   isNew?: boolean;
   visaEligible?: boolean;
-  description?: string; // Added optional description for schema
+  isFeatured?: boolean;
+  virtualTourUrl?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeywords?: string;
+  status?: string;
+  description?: string;
 }
 
 const PropertyCard = ({ property }: { property: PropertyProps }) => {
@@ -44,7 +51,7 @@ const PropertyCard = ({ property }: { property: PropertyProps }) => {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
     "name": property.title,
-    "description": property.description || "", // Handle undefined description
+    "description": property.description || "",
     "price": property.price,
     "address": {
       "@type": "PostalAddress",
