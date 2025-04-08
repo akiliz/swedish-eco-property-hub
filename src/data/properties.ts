@@ -1,4 +1,3 @@
-
 import { PropertyProps } from "@/components/PropertyCard";
 
 export const properties: PropertyProps[] = [
@@ -15,6 +14,7 @@ export const properties: PropertyProps[] = [
     area: 210,
     energyClass: "A",
     certifications: ["Nordic Swan", "BREEAM"],
+    sustainabilityFeatures: ["solar", "energy_appliances", "smart_home"],
     imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1470&auto=format&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1470&auto=format&fit=crop",
@@ -23,7 +23,13 @@ export const properties: PropertyProps[] = [
       "https://images.unsplash.com/photo-1600210492493-0946911123ea?q=80&w=1470&auto=format&fit=crop"
     ],
     isNew: true,
-    visaEligible: true
+    visaEligible: true,
+    isFeatured: true,
+    virtualTourUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    metaTitle: "Modern Villa Stockholm - Luxury Eco Living",
+    metaDescription: "Discover this stunning eco-friendly villa in Stockholm with modern amenities and sustainable features.",
+    metaKeywords: "eco villa, stockholm, luxury home, sustainable",
+    status: "active"
   },
   {
     id: "prop2",
@@ -37,13 +43,21 @@ export const properties: PropertyProps[] = [
     area: 95,
     energyClass: "B",
     certifications: ["Nordic Swan"],
+    sustainabilityFeatures: ["energy_appliances", "insulation"],
     imageUrl: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=1470&auto=format&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=1470&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=1470&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1560185009-5bf9f2849488?q=80&w=1470&auto=format&fit=crop"
     ],
-    visaEligible: true
+    visaEligible: true,
+    isNew: false,
+    isFeatured: false,
+    virtualTourUrl: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
+    status: "active"
   },
   {
     id: "prop3",
@@ -55,6 +69,7 @@ export const properties: PropertyProps[] = [
     area: 450,
     energyClass: "A",
     certifications: ["BREEAM", "LEED"],
+    sustainabilityFeatures: ["solar", "energy_appliances", "smart_home", "rainwater"],
     imageUrl: "https://images.unsplash.com/photo-1531973576160-7125cd663d86?q=80&w=1470&auto=format&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1531973576160-7125cd663d86?q=80&w=1470&auto=format&fit=crop",
@@ -62,7 +77,13 @@ export const properties: PropertyProps[] = [
       "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1470&auto=format&fit=crop"
     ],
     isNew: false,
-    visaEligible: true
+    visaEligible: true,
+    isFeatured: true,
+    virtualTourUrl: "https://www.youtube.com/embed/abcDEF123",
+    metaTitle: "Sustainable Office Building Stockholm",
+    metaDescription: "Premium commercial property with top sustainability certifications in Stockholm",
+    metaKeywords: "commercial property, sustainable office, stockholm",
+    status: "active"
   },
   {
     id: "prop4",
@@ -76,6 +97,7 @@ export const properties: PropertyProps[] = [
     area: 175,
     energyClass: "B",
     certifications: ["Miljöbyggnad"],
+    sustainabilityFeatures: ["energy_appliances", "insulation"],
     imageUrl: "https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=1467&auto=format&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=1467&auto=format&fit=crop",
@@ -83,7 +105,13 @@ export const properties: PropertyProps[] = [
       "https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1470&auto=format&fit=crop"
     ],
     isNew: false,
-    visaEligible: false
+    visaEligible: false,
+    isFeatured: false,
+    virtualTourUrl: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
+    status: "active"
   },
   {
     id: "prop5",
@@ -95,6 +123,7 @@ export const properties: PropertyProps[] = [
     area: 325,
     energyClass: "C",
     certifications: ["BREEAM"],
+    sustainabilityFeatures: ["energy_appliances", "insulation"],
     imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1558&auto=format&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1558&auto=format&fit=crop",
@@ -102,7 +131,13 @@ export const properties: PropertyProps[] = [
       "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1470&auto=format&fit=crop"
     ],
     isNew: true,
-    visaEligible: false
+    visaEligible: false,
+    isFeatured: true,
+    virtualTourUrl: "https://www.youtube.com/embed/xyz789",
+    metaTitle: "Waterfront Restaurant Space Gothenburg",
+    metaDescription: "Luxury commercial property with waterfront views and sustainable features",
+    metaKeywords: "commercial property, waterfront, gothenburg",
+    status: "active"
   },
   {
     id: "prop6",
@@ -116,6 +151,7 @@ export const properties: PropertyProps[] = [
     area: 130,
     energyClass: "A",
     certifications: ["Nordic Swan", "Miljöbyggnad"],
+    sustainabilityFeatures: ["solar", "energy_appliances", "smart_home"],
     imageUrl: "https://images.unsplash.com/photo-1636055981100-9c96b2e3b9ab?q=80&w=1470&auto=format&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1636055981100-9c96b2e3b9ab?q=80&w=1470&auto=format&fit=crop",
@@ -123,7 +159,13 @@ export const properties: PropertyProps[] = [
       "https://images.unsplash.com/photo-1580237072044-f2fa64c42655?q=80&w=1470&auto=format&fit=crop"
     ],
     isNew: false,
-    visaEligible: true
+    visaEligible: true,
+    isFeatured: false,
+    virtualTourUrl: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
+    status: "active"
   }
 ];
 

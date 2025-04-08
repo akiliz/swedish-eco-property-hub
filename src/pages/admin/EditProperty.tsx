@@ -67,8 +67,14 @@ const mockProperties = [
     energyClass: "A",
     description: "Beautiful eco-friendly villa with solar panels and modern amenities.",
     certifications: ["Nordic Swan", "BREEAM"],
+    sustainabilityFeatures: ["solar", "energy_appliances", "smart_home"],
+    virtualTourUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     isNew: false,
     visaEligible: true,
+    isFeatured: true,
+    metaTitle: "Eco Villa Stockholm - Sustainable Living",
+    metaDescription: "Beautiful eco-friendly villa with solar panels in Stockholm's most prestigious area.",
+    metaKeywords: "eco villa, stockholm, sustainable living, solar panels",
     createdAt: "2024-03-15"
   },
   { 
@@ -85,8 +91,14 @@ const mockProperties = [
     energyClass: "A",
     description: "Modern apartment with energy-efficient appliances and heating system.",
     certifications: ["LEED", "Passive House"],
+    sustainabilityFeatures: ["energy_appliances", "insulation"],
+    virtualTourUrl: "",
     isNew: true,
     visaEligible: false,
+    isFeatured: false,
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
     createdAt: "2024-03-28"
   },
   { 
@@ -103,8 +115,14 @@ const mockProperties = [
     energyClass: "B",
     description: "Charming cottage with solar power and rainwater collection system.",
     certifications: ["Nordic Swan"],
+    sustainabilityFeatures: ["solar", "rainwater"],
+    virtualTourUrl: "",
     isNew: false,
     visaEligible: true,
+    isFeatured: false,
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
     createdAt: "2024-02-18"
   },
   { 
@@ -121,8 +139,14 @@ const mockProperties = [
     energyClass: "A+",
     description: "Large family home built to passive house standards with minimal energy consumption.",
     certifications: ["Passive House", "BREEAM", "Nordic Swan"],
+    sustainabilityFeatures: ["insulation", "geothermal", "energy_appliances", "natural_ventilation"],
+    virtualTourUrl: "https://www.youtube.com/embed/aBcd12345",
     isNew: false,
     visaEligible: true,
+    isFeatured: true,
+    metaTitle: "Passive House Malmö - Zero Energy Home",
+    metaDescription: "Experience sustainable living with this certified passive house in Malmö",
+    metaKeywords: "passive house, malmö, sustainable, zero energy",
     createdAt: "2024-04-01"
   },
   { 
@@ -139,8 +163,14 @@ const mockProperties = [
     energyClass: "B",
     description: "Cozy cabin with eco-friendly heating and insulation, perfect for nature lovers.",
     certifications: ["Nordic Swan"],
+    sustainabilityFeatures: ["insulation", "energy_appliances", "led_lighting"],
+    virtualTourUrl: "",
     isNew: true,
     visaEligible: false,
+    isFeatured: false,
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
     createdAt: "2024-03-10"
   },
 ];

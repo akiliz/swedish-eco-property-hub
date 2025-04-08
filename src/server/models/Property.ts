@@ -12,9 +12,16 @@ const propertySchema = new mongoose.Schema({
   area: Number,
   energyClass: String,
   certifications: [String],
+  sustainabilityFeatures: [String], // Added sustainability features
   images: [String],
+  virtualTourUrl: String, // Added virtual tour URL
   isNew: Boolean,
   visaEligible: Boolean,
+  isFeatured: Boolean, // Added featured listing flag
+  metaTitle: String, // Added SEO meta title
+  metaDescription: String, // Added SEO meta description
+  metaKeywords: String, // Added SEO meta keywords
+  status: { type: String, default: 'active' }, // Added property status
   createdAt: { type: Date, default: Date.now }
 });
 
