@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -13,8 +12,18 @@ import { Badge } from "@/components/ui/custom-badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Search, MoreVertical, MessageSquare, CheckCircle, User } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogHeader, 
+  DialogTitle,
+  DialogFooter,
+  DialogClose
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
-// Mock data - would be fetched from API in production
 const mockInquiries = [
   { 
     id: 1, 
@@ -63,7 +72,6 @@ const mockInquiries = [
   },
 ];
 
-// Mock users for assignment dropdown
 const mockAgents = [
   { name: "John Doe", email: "john@example.com", avatar: "" },
   { name: "Jane Smith", email: "jane@example.com", avatar: "" },
@@ -75,16 +83,19 @@ const AdminInquiries = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [agentFilter, setAgentFilter] = useState<string | null>(null);
+  const [inquiries, setInquiries] = useState(mockInquiries);
+  const [selectedInquiry, setSelectedInquiry] = useState<any>(null);
+  const [showDetailsDialog, setShowDetailsDialog] = useState(false);
+  const [showAssignDialog, setShowAssignDialog] = useState(false);
+  const [responseText, setResponseText] = useState("");
 
-  // Redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/auth");
     }
   }, [isAuthenticated, navigate]);
 
-  // Filter inquiries based on search and filters
-  const filteredInquiries = mockInquiries.filter(inquiry => {
+  const filteredInquiries = inquiries.filter(inquiry => {
     const matchesSearch = searchTerm === "" || 
       inquiry.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
       inquiry.property.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -92,12 +103,12 @@ const AdminInquiries = () => {
     
     const matchesStatus = statusFilter === null || inquiry.status === statusFilter;
     const matchesAgent = agentFilter === null || 
-      (inquiry.assignedTo && inquiry.assignedTo.name === agentFilter);
+      (inquiry.assignedTo && inquiry.assignedTo.name === agentFilter) || 
+      (!inquiry.assignedTo && agentFilter === 'Unassigned');
     
     return matchesSearch && matchesStatus && matchesAgent;
   });
 
-  // Get initials for avatar fallback
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -106,7 +117,6 @@ const AdminInquiries = () => {
       .toUpperCase();
   };
 
-  // Get badge variant based on status
   const getStatusVariant = (status: string) => {
     switch(status) {
       case 'new': return 'default';
@@ -114,6 +124,78 @@ const AdminInquiries = () => {
       case 'resolved': return 'success';
       default: return 'outline';
     }
+  };
+
+  const handleViewDetails = (inquiry: any) => {
+    setSelectedInquiry(inquiry);
+    setShowDetailsDialog(true);
+  };
+
+  const handleAssign = (inquiry: any) => {
+    setSelectedInquiry(inquiry);
+    setShowAssignDialog(true);
+  };
+
+  const assignToAgent = (agent: typeof mockAgents[0]) => {
+    if (!selectedInquiry) return;
+    
+    const updatedInquiries = inquiries.map(inquiry => {
+      if (inquiry.id === selectedInquiry.id) {
+        return {
+          ...inquiry,
+          assignedTo: agent,
+          status: inquiry.status === 'new' ? 'in-progress' : inquiry.status
+        };
+      }
+      return inquiry;
+    });
+    
+    setInquiries(updatedInquiries);
+    setShowAssignDialog(false);
+    toast({
+      title: "Agent assigned",
+      description: `${agent.name} has been assigned to this inquiry.`
+    });
+  };
+
+  const handleMarkAsResolved = (inquiry: any) => {
+    const updatedInquiries = inquiries.map(item => {
+      if (item.id === inquiry.id) {
+        return {
+          ...item,
+          status: 'resolved'
+        };
+      }
+      return item;
+    });
+    
+    setInquiries(updatedInquiries);
+    toast({
+      title: "Inquiry resolved",
+      description: "The inquiry has been marked as resolved."
+    });
+  };
+
+  const handleSubmitResponse = () => {
+    if (!responseText.trim() || !selectedInquiry) return;
+
+    const updatedInquiries = inquiries.map(inquiry => {
+      if (inquiry.id === selectedInquiry.id) {
+        return {
+          ...inquiry,
+          status: 'in-progress'
+        };
+      }
+      return inquiry;
+    });
+    
+    setInquiries(updatedInquiries);
+    setResponseText("");
+    setShowDetailsDialog(false);
+    toast({
+      title: "Response sent",
+      description: "Your response has been sent to the client."
+    });
   };
 
   return (
@@ -126,7 +208,6 @@ const AdminInquiries = () => {
             <h1 className="text-2xl font-bold">Inquiries Management</h1>
           </div>
 
-          {/* Filters */}
           <div className="bg-white p-4 rounded-lg shadow mb-6">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-grow relative">
@@ -143,7 +224,7 @@ const AdminInquiries = () => {
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline">Status: {statusFilter || 'All'}</Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="bg-white">
                     <DropdownMenuItem onClick={() => setStatusFilter(null)}>All</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setStatusFilter("new")}>New</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setStatusFilter("in-progress")}>In Progress</DropdownMenuItem>
@@ -154,7 +235,7 @@ const AdminInquiries = () => {
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline">Agent: {agentFilter || 'All'}</Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="bg-white">
                     <DropdownMenuItem onClick={() => setAgentFilter(null)}>All</DropdownMenuItem>
                     {mockAgents.map(agent => (
                       <DropdownMenuItem key={agent.email} onClick={() => setAgentFilter(agent.name)}>
@@ -168,7 +249,6 @@ const AdminInquiries = () => {
             </div>
           </div>
 
-          {/* Inquiries Table */}
           <Card>
             <CardHeader className="pb-0">
               <CardTitle>Inquiries List</CardTitle>
@@ -233,14 +313,24 @@ const AdminInquiries = () => {
                                 <MoreVertical className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem className="flex items-center gap-2">
+                            <DropdownMenuContent align="end" className="bg-white">
+                              <DropdownMenuItem 
+                                className="flex items-center gap-2 cursor-pointer"
+                                onClick={() => handleViewDetails(inquiry)}
+                              >
                                 <MessageSquare className="h-4 w-4" /> View Details
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="flex items-center gap-2">
+                              <DropdownMenuItem 
+                                className="flex items-center gap-2 cursor-pointer"
+                                onClick={() => handleAssign(inquiry)}
+                              >
                                 <User className="h-4 w-4" /> Assign
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="flex items-center gap-2">
+                              <DropdownMenuItem 
+                                className="flex items-center gap-2 cursor-pointer"
+                                onClick={() => handleMarkAsResolved(inquiry)}
+                                disabled={inquiry.status === 'resolved'}
+                              >
                                 <CheckCircle className="h-4 w-4" /> Mark as Resolved
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -256,6 +346,76 @@ const AdminInquiries = () => {
         </main>
       </div>
       <Footer />
+
+      <Dialog open={showDetailsDialog} onOpenChange={setShowDetailsDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{selectedInquiry?.subject}</DialogTitle>
+            <DialogDescription>
+              From: {selectedInquiry?.sender.name} ({selectedInquiry?.sender.email})
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="bg-muted p-3 rounded-md">
+              <p className="text-sm">
+                This is a mock inquiry message content. In a real application, this would contain the actual message from the client regarding {selectedInquiry?.property}.
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                Received on {selectedInquiry?.date}
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium mb-2">Your Response</h4>
+              <Textarea 
+                value={responseText} 
+                onChange={(e) => setResponseText(e.target.value)}
+                placeholder="Type your response here..."
+                className="min-h-[120px]"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={handleSubmitResponse}>Send Response</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showAssignDialog} onOpenChange={setShowAssignDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Assign Inquiry</DialogTitle>
+            <DialogDescription>
+              Select an agent to handle this inquiry.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-3 py-4">
+            {mockAgents.map((agent) => (
+              <div 
+                key={agent.email} 
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-muted cursor-pointer"
+                onClick={() => assignToAgent(agent)}
+              >
+                <Avatar className="h-9 w-9">
+                  <AvatarFallback>{getInitials(agent.name)}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h4 className="text-sm font-medium">{agent.name}</h4>
+                  <p className="text-xs text-muted-foreground">{agent.email}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
