@@ -31,7 +31,7 @@ const Carousel = React.forwardRef<
     const [canScrollPrev, setCanScrollPrev] = React.useState(false)
     const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-    const handleSelect = React.useCallback((api: CarouselApi) => {
+    const onSelectHandler = React.useCallback((api: CarouselApi) => {
       if (!api) {
         return
       }
@@ -40,9 +40,7 @@ const Carousel = React.forwardRef<
       setCanScrollNext(api.canScrollNext())
       
       // Call user-provided onSelect callback
-      if (onSelect) {
-        onSelect(api);
-      }
+      onSelect?.(api);
     }, [onSelect])
 
     const scrollPrev = React.useCallback(() => {
@@ -79,14 +77,15 @@ const Carousel = React.forwardRef<
         return
       }
 
-      handleSelect(api)
-      api.on("reInit", handleSelect)
-      api.on("select", handleSelect)
+      onSelectHandler(api)
+      api.on("reInit", onSelectHandler)
+      api.on("select", onSelectHandler)
 
       return () => {
-        api?.off("select", handleSelect)
+        api.off("reInit", onSelectHandler)
+        api.off("select", onSelectHandler)
       }
-    }, [api, handleSelect])
+    }, [api, onSelectHandler])
 
     return (
       <CarouselContext.Provider
@@ -109,6 +108,7 @@ const Carousel = React.forwardRef<
           className={cn("relative", className)}
           role="region"
           aria-roledescription="carousel"
+          tabIndex={0}
           {...props}
         >
           {children}

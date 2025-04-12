@@ -12,15 +12,6 @@ import { useState, useCallback, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
-const imageLoader = async (src: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => resolve();
-    img.onerror = reject;
-  });
-};
-
 interface PropertyGalleryProps {
   images: string[];
   title: string;
@@ -31,41 +22,51 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
   const [isLoading, setIsLoading] = useState<boolean[]>(images.map(() => true));
   const [api, setApi] = useState<CarouselApi | null>(null);
   
-  const handleSelect = useCallback(() => {
-    if (!api) return;
-    setCurrentIndex(api.selectedScrollSnap());
-  }, [api]);
+  // Optimize the select handler to only update when needed
+  const handleSelect = useCallback((api: CarouselApi) => {
+    const selectedIndex = api.selectedScrollSnap();
+    setCurrentIndex(selectedIndex);
+  }, []);
 
   const scrollToIndex = useCallback((index: number) => {
     api?.scrollTo(index);
   }, [api]);
 
   // Mark image as loaded
-  const handleImageLoad = (index: number) => {
+  const handleImageLoad = useCallback((index: number) => {
     setIsLoading(prev => {
+      if (!prev[index]) return prev; // Skip update if already loaded
       const newState = [...prev];
       newState[index] = false;
       return newState;
     });
-  };
+  }, []);
   
-  // Initialize the thumbnail scroll position when currentIndex changes
-  useEffect(() => {
-    if (currentIndex === undefined) return;
-    
+  // Center selected thumbnail with memoization for better performance
+  const centerSelectedThumbnail = useCallback((index: number) => {
     const thumbnailContainer = document.getElementById('thumbnails-container');
     if (!thumbnailContainer) return;
     
-    const thumbnail = thumbnailContainer.children[currentIndex] as HTMLElement;
+    const thumbnail = thumbnailContainer.children[index] as HTMLElement;
     if (!thumbnail) return;
     
     const containerWidth = thumbnailContainer.offsetWidth;
     const thumbnailLeft = thumbnail.offsetLeft;
     const thumbnailWidth = thumbnail.offsetWidth;
     
-    // Center the selected thumbnail
     thumbnailContainer.scrollLeft = thumbnailLeft - containerWidth / 2 + thumbnailWidth / 2;
-  }, [currentIndex]);
+  }, []);
+  
+  // Use effect for centering thumbnail with debounce
+  useEffect(() => {
+    if (currentIndex === undefined) return;
+    
+    const timeoutId = setTimeout(() => {
+      centerSelectedThumbnail(currentIndex);
+    }, 50);
+    
+    return () => clearTimeout(timeoutId);
+  }, [currentIndex, centerSelectedThumbnail]);
   
   return (
     <div className="space-y-4">
@@ -76,7 +77,7 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
           loop: true,
         }}
         setApi={setApi}
-        onScroll={handleSelect}
+        onSelect={handleSelect}
       >
         <CarouselContent>
           {images.map((image, index) => (
@@ -93,6 +94,7 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
                     isLoading[index] ? "opacity-0" : "opacity-100"
                   )}
                   onLoad={() => handleImageLoad(index)}
+                  loading={index <= 2 ? "eager" : "lazy"}
                 />
               </AspectRatio>
             </CarouselItem>
@@ -104,7 +106,7 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
       
       <div 
         id="thumbnails-container"
-        className="flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-muted-foreground scrollbar-track-muted"
+        className="flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-muted-foreground scrollbar-track-muted hide-scrollbar"
       >
         {images.map((image, index) => (
           <button
@@ -117,6 +119,8 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
                 : "hover:ring-1 hover:ring-eco-green/50",
               currentIndex !== index && "opacity-70 hover:opacity-100"
             )}
+            aria-label={`View image ${index + 1}`}
+            aria-current={currentIndex === index ? "true" : "false"}
           >
             <img 
               src={image} 
