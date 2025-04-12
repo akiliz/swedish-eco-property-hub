@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -16,11 +15,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Save, Building, MapPin, Upload, Image, Trash2, Eye, Info } from "lucide-react";
+import { ArrowLeft, Save, Building, MapPin, Upload, ImageIcon, Trash2, Eye, Info } from "lucide-react";
 import { toast } from "sonner";
 import EnergyClassDropdown from "@/components/admin/EnergyClassDropdown";
 import SustainabilityFeatures from "@/components/admin/SustainabilityFeatures";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -445,13 +444,13 @@ const EditProperty = () => {
 
           {loading ? (
             <div className="w-full h-64 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-eco-green"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
             </div>
           ) : (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Building className="h-5 w-5 text-eco-green" />
+                  <Building className="h-5 w-5 text-green-500" />
                   {property?.title}
                 </CardTitle>
                 <div className="flex items-center text-sm text-muted-foreground">
@@ -468,97 +467,215 @@ const EditProperty = () => {
                     <TabsTrigger value="documents">Documents</TabsTrigger>
                     <TabsTrigger value="seo">SEO</TabsTrigger>
                   </TabsList>
-                </Tabs>
 
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <TabsContent value="basic" className="space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-4">
-                          <h3 className="text-lg font-semibold">Basic Information</h3>
-                          
-                          <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Property Title</FormLabel>
+                  
+                  <TabsContent value="basic" className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">Basic Information</h3>
+                        
+                        <FormField
+                          control={form.control}
+                          name="title"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Property Title</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Enter property title" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="type"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Property Type</FormLabel>
+                              <Select 
+                                onValueChange={field.onChange} 
+                                defaultValue={field.value}
+                              >
                                 <FormControl>
-                                  <Input placeholder="Enter property title" {...field} />
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select property type" />
+                                  </SelectTrigger>
                                 </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <FormField
-                            control={form.control}
-                            name="type"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Property Type</FormLabel>
-                                <Select 
-                                  onValueChange={field.onChange} 
-                                  defaultValue={field.value}
-                                >
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="Select property type" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="residential">Residential</SelectItem>
-                                    <SelectItem value="commercial">Commercial</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <FormField
-                            control={form.control}
-                            name="price"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Price (€)</FormLabel>
+                                <SelectContent>
+                                  <SelectItem value="residential">Residential</SelectItem>
+                                  <SelectItem value="commercial">Commercial</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="price"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Price (€)</FormLabel>
+                              <FormControl>
+                                <Input type="number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="status"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Status</FormLabel>
+                              <Select 
+                                onValueChange={field.onChange} 
+                                defaultValue={field.value}
+                              >
                                 <FormControl>
-                                  <Input type="number" {...field} />
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select status" />
+                                  </SelectTrigger>
                                 </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
+                                <SelectContent>
+                                  <SelectItem value="active">Active</SelectItem>
+                                  <SelectItem value="pending">Pending</SelectItem>
+                                  <SelectItem value="sold">Sold</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="isFeatured"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                              <div className="space-y-1 leading-none">
+                                <FormLabel>Featured Listing</FormLabel>
+                                <FormDescription>
+                                  Property will be prominently displayed on homepage and search results
+                                </FormDescription>
+                              </div>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">Location</h3>
+                        
+                        <FormField
+                          control={form.control}
+                          name="location"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>City/Region</FormLabel>
+                              <FormControl>
+                                <Input placeholder="e.g. Stockholm" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="address"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Full Address</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Enter full address" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <div className="pt-4">
+                          <h3 className="text-lg font-semibold">Features</h3>
+                        </div>
+                        
+                        <FormField
+                          control={form.control}
+                          name="bedrooms"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Bedrooms</FormLabel>
+                              <FormControl>
+                                <Input type="number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="bathrooms"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Bathrooms</FormLabel>
+                              <FormControl>
+                                <Input type="number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="area"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Area (m²)</FormLabel>
+                              <FormControl>
+                                <Input type="number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className="md:col-span-2 space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="description"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Description</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Enter property description" 
+                                  className="min-h-32" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <FormField
                             control={form.control}
-                            name="status"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Status</FormLabel>
-                                <Select 
-                                  onValueChange={field.onChange} 
-                                  defaultValue={field.value}
-                                >
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="Select status" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="active">Active</SelectItem>
-                                    <SelectItem value="pending">Pending</SelectItem>
-                                    <SelectItem value="sold">Sold</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <FormField
-                            control={form.control}
-                            name="isFeatured"
+                            name="isNew"
                             render={({ field }) => (
                               <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                                 <FormControl>
@@ -568,516 +685,229 @@ const EditProperty = () => {
                                   />
                                 </FormControl>
                                 <div className="space-y-1 leading-none">
-                                  <FormLabel>Featured Listing</FormLabel>
+                                  <FormLabel>Mark as New</FormLabel>
                                   <FormDescription>
-                                    Property will be prominently displayed on homepage and search results
+                                    Display a "New" badge on the property listing
+                                  </FormDescription>
+                                </div>
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="visaEligible"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <div className="space-y-1 leading-none">
+                                  <FormLabel>Visa Eligible</FormLabel>
+                                  <FormDescription>
+                                    Property qualifies for residency visa eligibility
                                   </FormDescription>
                                 </div>
                               </FormItem>
                             )}
                           />
                         </div>
-
-                        <div className="space-y-4">
-                          <h3 className="text-lg font-semibold">Location</h3>
-                          
-                          <FormField
-                            control={form.control}
-                            name="location"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>City/Region</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="e.g. Stockholm" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <FormField
-                            control={form.control}
-                            name="address"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Full Address</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="Enter full address" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <div className="pt-4">
-                            <h3 className="text-lg font-semibold">Features</h3>
-                          </div>
-                          
-                          <FormField
-                            control={form.control}
-                            name="bedrooms"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Bedrooms</FormLabel>
-                                <FormControl>
-                                  <Input type="number" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <FormField
-                            control={form.control}
-                            name="bathrooms"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Bathrooms</FormLabel>
-                                <FormControl>
-                                  <Input type="number" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <FormField
-                            control={form.control}
-                            name="area"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Area (m²)</FormLabel>
-                                <FormControl>
-                                  <Input type="number" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-
-                        <div className="md:col-span-2 space-y-4">
-                          <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Description</FormLabel>
-                                <FormControl>
-                                  <Textarea 
-                                    placeholder="Enter property description" 
-                                    className="min-h-32" 
-                                    {...field} 
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <FormField
-                              control={form.control}
-                              name="isNew"
-                              render={({ field }) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={field.onChange}
-                                    />
-                                  </FormControl>
-                                  <div className="space-y-1 leading-none">
-                                    <FormLabel>Mark as New</FormLabel>
-                                    <FormDescription>
-                                      Display a "New" badge on the property listing
-                                    </FormDescription>
-                                  </div>
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <FormField
-                              control={form.control}
-                              name="visaEligible"
-                              render={({ field }) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={field.onChange}
-                                    />
-                                  </FormControl>
-                                  <div className="space-y-1 leading-none">
-                                    <FormLabel>Visa Eligible</FormLabel>
-                                    <FormDescription>
-                                      Property qualifies for residency visa eligibility
-                                    </FormDescription>
-                                  </div>
-                                </FormItem>
-                              )}
-                            />
-                          </div>
-                        </div>
                       </div>
-                    </TabsContent>
+                    </div>
+                  </TabsContent>
 
-                    <TabsContent value="sustainability" className="space-y-6">
-                      <div className="grid grid-cols-1 gap-6">
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-semibold">Energy Classification</h3>
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <Info className="h-4 w-4 text-muted-foreground" />
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="max-w-xs">Select the appropriate energy efficiency certification for this property</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </div>
-                          
-                          <FormField
-                            control={form.control}
-                            name="energyClass"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Energy Class</FormLabel>
-                                <FormControl>
-                                  <EnergyClassDropdown 
-                                    value={field.value} 
-                                    onChange={field.onChange}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-                        
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-semibold">Certifications</h3>
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <Info className="h-4 w-4 text-muted-foreground" />
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="max-w-xs">Select all applicable environmental certifications this property has achieved</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </div>
-                          
-                          <div className="grid grid-cols-2 gap-2">
-                            {availableCertifications.map((cert) => (
-                              <div key={cert} className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id={`cert-${cert}`}
-                                  checked={selectedCertifications.includes(cert)}
-                                  onCheckedChange={() => toggleCertification(cert)}
-                                />
-                                <label
-                                  htmlFor={`cert-${cert}`}
-                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                  {cert}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-semibold">Sustainability Features</h3>
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <Info className="h-4 w-4 text-muted-foreground" />
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="max-w-xs">Select all eco-friendly and sustainability features present in this property</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </div>
-                          
-                          <FormField
-                            control={form.control}
-                            name="sustainabilityFeatures"
-                            render={() => (
-                              <FormItem>
-                                <FormControl>
-                                  <SustainabilityFeatures
-                                    selectedFeatures={selectedSustainabilityFeatures}
-                                    onChange={handleSustainabilityFeaturesChange}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="media" className="space-y-6">
+                  <TabsContent value="sustainability" className="space-y-6">
+                    <div className="grid grid-cols-1 gap-6">
                       <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Image Gallery</h3>
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold">Energy Classification</h3>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info className="h-4 w-4 text-muted-foreground" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="max-w-xs">Select the appropriate energy efficiency certification for this property</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
                         
-                        <div className="border rounded-md p-4 bg-muted/30">
-                          <div className="flex items-center justify-center w-full">
-                            <label
-                              htmlFor="image-upload"
-                              className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-muted/20 hover:bg-muted/40"
-                            >
-                              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                <Image className="w-8 h-8 mb-3 text-muted-foreground" />
-                                <p className="mb-2 text-sm text-muted-foreground">
-                                  <span className="font-semibold">Click to upload</span> or drag and drop
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  JPG, PNG or WebP (MAX. 5MB)
-                                </p>
-                              </div>
-                              <input
-                                id="image-upload"
-                                type="file"
-                                multiple
-                                accept="image/jpeg,image/png,image/webp"
-                                className="hidden"
-                                onChange={handleImageUpload}
-                              />
-                            </label>
-                          </div>
-                          
-                          {imageUrls.length > 0 && (
-                            <div className="mt-4">
-                              <h4 className="font-medium text-sm mb-2">Property Images</h4>
-                              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                                {imageUrls.map((url, index) => (
-                                  <div
-                                    key={`image-${index}`}
-                                    className="relative group aspect-square rounded-md overflow-hidden border"
-                                  >
-                                    <img
-                                      src={url}
-                                      alt={`Property image ${index + 1}`}
-                                      className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                      <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="icon"
-                                        onClick={() => removeImage(index)}
-                                        className="h-8 w-8"
-                                      >
-                                        <Trash2 className="h-4 w-4" />
-                                      </Button>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                              <p className="text-xs text-muted-foreground mt-2">
-                                Drag and drop to reorder images (first image will be the featured image)
-                              </p>
-                            </div>
+                        <FormField
+                          control={form.control}
+                          name="energyClass"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Energy Class</FormLabel>
+                              <FormControl>
+                                <EnergyClassDropdown 
+                                  value={field.value} 
+                                  onChange={field.onChange}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
                           )}
+                        />
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold">Certifications</h3>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info className="h-4 w-4 text-muted-foreground" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="max-w-xs">Select all applicable environmental certifications this property has achieved</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-2">
+                          {availableCertifications.map((cert) => (
+                            <div key={cert} className="flex items-center space-x-2">
+                              <Checkbox 
+                                id={`cert-${cert}`}
+                                checked={selectedCertifications.includes(cert)}
+                                onCheckedChange={() => toggleCertification(cert)}
+                              />
+                              <label
+                                htmlFor={`cert-${cert}`}
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              >
+                                {cert}
+                              </label>
+                            </div>
+                          ))}
                         </div>
                       </div>
                       
                       <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Virtual Tour</h3>
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold">Sustainability Features</h3>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info className="h-4 w-4 text-muted-foreground" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="max-w-xs">Select all eco-friendly and sustainability features present in this property</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
                         
                         <FormField
                           control={form.control}
-                          name="virtualTourUrl"
-                          render={({ field }) => (
+                          name="sustainabilityFeatures"
+                          render={() => (
                             <FormItem>
-                              <FormLabel>Virtual Tour URL</FormLabel>
-                              <div className="flex gap-2">
-                                <FormControl>
-                                  <Input 
-                                    placeholder="Enter Matterport or YouTube URL" 
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <Button 
-                                  type="button" 
-                                  variant="outline"
-                                  onClick={handleVirtualTourPreview}
-                                >
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  {previewVirtualTour ? "Hide Preview" : "Preview"}
-                                </Button>
-                              </div>
-                              <FormDescription>
-                                Enter a valid Matterport, YouTube, or other virtual tour URL
-                              </FormDescription>
+                              <FormControl>
+                                <SustainabilityFeatures
+                                  selectedFeatures={selectedSustainabilityFeatures}
+                                  onChange={handleSustainabilityFeaturesChange}
+                                />
+                              </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
-                        
-                        {previewVirtualTour && form.getValues("virtualTourUrl") && (
-                          <div className="border rounded-md overflow-hidden aspect-video">
-                            <iframe
-                              title="Virtual Tour Preview"
-                              src={form.getValues("virtualTourUrl")}
-                              allowFullScreen
-                              className="w-full h-full"
-                            ></iframe>
-                          </div>
-                        )}
                       </div>
-                    </TabsContent>
+                    </div>
+                  </TabsContent>
 
-                    <TabsContent value="documents" className="space-y-6">
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Property Certifications</h3>
+                  <TabsContent value="media" className="space-y-6">
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold">Image Gallery</h3>
+                      
+                      <div className="border rounded-md p-4 bg-muted/30">
+                        <div className="flex items-center justify-center w-full">
+                          <label
+                            htmlFor="image-upload"
+                            className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-muted/20 hover:bg-muted/40"
+                          >
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                              <ImageIcon className="w-8 h-8 mb-3 text-muted-foreground" />
+                              <p className="mb-2 text-sm text-muted-foreground">
+                                <span className="font-semibold">Click to upload</span> or drag and drop
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                JPG, PNG or WebP (MAX. 5MB)
+                              </p>
+                            </div>
+                            <input
+                              id="image-upload"
+                              type="file"
+                              multiple
+                              accept="image/jpeg,image/png,image/webp"
+                              className="hidden"
+                              onChange={handleImageUpload}
+                            />
+                          </label>
+                        </div>
                         
-                        <div className="border rounded-md p-4 bg-muted/30">
-                          <div className="flex items-center justify-center w-full">
-                            <label
-                              htmlFor="certificate-upload"
-                              className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-muted/20 hover:bg-muted/40"
-                            >
-                              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                <Upload className="w-8 h-8 mb-3 text-muted-foreground" />
-                                <p className="mb-2 text-sm text-muted-foreground">
-                                  <span className="font-semibold">Click to upload</span> certification documents
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  PDF files only (MAX. 5MB)
-                                </p>
-                              </div>
-                              <input
-                                id="certificate-upload"
-                                type="file"
-                                multiple
-                                accept="application/pdf"
-                                className="hidden"
-                                onChange={handleCertificateUpload}
-                              />
-                            </label>
-                          </div>
-                          
-                          {certificateNames.length > 0 && (
-                            <div className="mt-4 space-y-2">
-                              <h4 className="font-medium text-sm">Uploaded Certificates</h4>
-                              {certificateNames.map((name, index) => (
+                        {imageUrls.length > 0 && (
+                          <div className="mt-4">
+                            <h4 className="font-medium text-sm mb-2">Property Images</h4>
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                              {imageUrls.map((url, index) => (
                                 <div
-                                  key={`cert-file-${index}`}
-                                  className="flex items-center justify-between p-2 border rounded-md bg-background"
+                                  key={`image-${index}`}
+                                  className="relative group aspect-square rounded-md overflow-hidden border"
                                 >
-                                  <span className="text-sm truncate max-w-[80%]">{name}</span>
-                                  <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => removeCertificate(index)}
-                                    className="h-8 w-8 text-destructive"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                  </Button>
+                                  <img
+                                    src={url}
+                                    alt={`Property image ${index + 1}`}
+                                    className="w-full h-full object-cover"
+                                  />
+                                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <Button
+                                      type="button"
+                                      variant="destructive"
+                                      size="icon"
+                                      onClick={() => removeImage(index)}
+                                      className="h-8 w-8"
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
                                 </div>
                               ))}
                             </div>
-                          )}
-                        </div>
+                            <p className="text-xs text-muted-foreground mt-2">
+                              Drag and drop to reorder images (first image will be the featured image)
+                            </p>
+                          </div>
+                        )}
                       </div>
-                    </TabsContent>
-
-                    <TabsContent value="seo" className="space-y-6">
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">SEO Settings</h3>
-                        
-                        <FormField
-                          control={form.control}
-                          name="metaTitle"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Meta Title</FormLabel>
-                              <FormControl>
-                                <Input 
-                                  placeholder="Enter SEO title (max 60 characters)" 
-                                  {...field}
-                                  maxLength={60} 
-                                />
-                              </FormControl>
-                              <FormDescription>
-                                {field.value?.length || 0}/60 characters
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        
-                        <FormField
-                          control={form.control}
-                          name="metaDescription"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Meta Description</FormLabel>
-                              <FormControl>
-                                <Textarea 
-                                  placeholder="Enter SEO description (max 160 characters)" 
-                                  {...field}
-                                  maxLength={160} 
-                                />
-                              </FormControl>
-                              <FormDescription>
-                                {field.value?.length || 0}/160 characters
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        
-                        <FormField
-                          control={form.control}
-                          name="metaKeywords"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Meta Keywords</FormLabel>
-                              <FormControl>
-                                <Input 
-                                  placeholder="Enter keywords separated by commas" 
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormDescription>
-                                Example: eco-friendly, sustainable, green home
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </TabsContent>
-
-                    <div className="flex justify-end gap-2">
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        onClick={() => navigate("/admin/properties")}
-                      >
-                        Cancel
-                      </Button>
-                      <Button type="submit" className="bg-eco-green hover:bg-eco-green/90">
-                        <Save className="h-4 w-4 mr-2" />
-                        Save Changes
-                      </Button>
                     </div>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
-          )}
-        </main>
-      </div>
-      <Footer />
-    </div>
-  );
-};
-
-export default EditProperty;
+                    
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold">Virtual Tour</h3>
+                      
+                      <FormField
+                        control={form.control}
+                        name="virtualTourUrl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Virtual Tour URL</FormLabel>
+                            <div className="flex gap-2">
+                              <FormControl>
+                                <Input 
+                                  placeholder="Enter Matterport or YouTube URL" 
+                                  {...field}
+                                />
+                              </FormControl>
+                              <Button 
+                                type="button" 
+                                variant="outline"
+                                onClick={handleVirtualTourPreview}
+                              >
+                                <Eye className="h-4 w-4 mr-2" />
+                                {previewVirtualTour ? "Hide Preview" : "Preview"}
+                              </Button>
+                            </div>
+                            <FormDescription>
+                              Enter a valid Matterport, YouTube, or other virtual tour URL
+                            </FormDescription>
+                            <Form
