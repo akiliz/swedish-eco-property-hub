@@ -9,7 +9,7 @@ export type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 export type CarouselOptions = UseCarouselParameters[0]
 export type CarouselPlugin = UseCarouselParameters[1]
 
-// Define a more flexible onSelect type that can work with both signatures
+// Define the type to match both ReactEventHandler and our API handler
 export type CarouselOnSelectHandler = (api: CarouselApi) => void
 
 export type CarouselProps = {
