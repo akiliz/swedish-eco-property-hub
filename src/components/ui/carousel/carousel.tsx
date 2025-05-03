@@ -31,7 +31,7 @@ const Carousel = React.forwardRef<
     const [canScrollPrev, setCanScrollPrev] = React.useState(false)
     const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-    const onSelectHandler = React.useCallback((api: CarouselApi) => {
+    const onSelectHandler = React.useCallback(() => {
       if (!api) {
         return
       }
@@ -40,12 +40,10 @@ const Carousel = React.forwardRef<
       setCanScrollNext(api.canScrollNext())
       
       // Call user-provided onSelect callback if it exists
-      // Make sure we check that it's a function before calling it
       if (onSelect && typeof onSelect === 'function') {
-        // Only pass api as argument - this ensures compatibility with both function signatures
         onSelect(api)
       }
-    }, [onSelect])
+    }, [api, onSelect])
 
     const scrollPrev = React.useCallback(() => {
       api?.scrollPrev()
@@ -81,7 +79,7 @@ const Carousel = React.forwardRef<
         return
       }
 
-      onSelectHandler(api)
+      onSelectHandler()
       api.on("reInit", onSelectHandler)
       api.on("select", onSelectHandler)
 
