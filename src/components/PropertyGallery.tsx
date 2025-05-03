@@ -77,6 +77,8 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
           loop: true,
         }}
         setApi={setApi}
+        // Fixed: Use onSelect prop properly, ensuring it matches expected type
+        // The onSelect prop expects a callback that will receive the carousel API
         onSelect={handleSelect}
       >
         <CarouselContent>
