@@ -22,7 +22,7 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
   const [isLoading, setIsLoading] = useState<boolean[]>(images.map(() => true));
   const [api, setApi] = useState<CarouselApi | null>(null);
   
-  // Optimize the select handler to only update when needed
+  // Define the onSelect handler to properly match the expected types
   const handleSelect = useCallback((api: CarouselApi) => {
     const selectedIndex = api.selectedScrollSnap();
     setCurrentIndex(selectedIndex);
@@ -77,8 +77,6 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
           loop: true,
         }}
         setApi={setApi}
-        // Fixed: Use onSelect prop properly, ensuring it matches expected type
-        // The onSelect prop expects a callback that will receive the carousel API
         onSelect={handleSelect}
       >
         <CarouselContent>

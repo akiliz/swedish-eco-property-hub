@@ -9,12 +9,15 @@ export type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 export type CarouselOptions = UseCarouselParameters[0]
 export type CarouselPlugin = UseCarouselParameters[1]
 
+// Update the type definition for the onSelect prop to handle both React events and the carousel API
+export type CarouselOnSelectHandler = ((api: CarouselApi) => void) | React.ReactEventHandler<HTMLDivElement>
+
 export type CarouselProps = {
   opts?: CarouselOptions
   plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
   setApi?: (api: CarouselApi) => void
-  onSelect?: (api: CarouselApi) => void
+  onSelect?: CarouselOnSelectHandler
 }
 
 export type CarouselContextProps = {
