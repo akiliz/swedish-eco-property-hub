@@ -23,9 +23,9 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
   const [api, setApi] = useState<CarouselApi | null>(null);
   
   // Define our handler function for the Carousel onSelect prop
-  const handleSelect = useCallback((carouselApi: CarouselApi) => {
-    if (!carouselApi) return;
-    const selectedIndex = carouselApi.selectedScrollSnap();
+  const handleSelect = useCallback((api: CarouselApi) => {
+    if (!api) return;
+    const selectedIndex = api.selectedScrollSnap();
     setCurrentIndex(selectedIndex);
   }, []);
 
