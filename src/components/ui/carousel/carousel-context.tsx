@@ -9,7 +9,7 @@ export type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 export type CarouselOptions = UseCarouselParameters[0]
 export type CarouselPlugin = UseCarouselParameters[1]
 
-// Create separate types for event handler and API handler
+// Define a type for the onSelect handler that only expects the API
 export type CarouselOnSelectHandler = (api: CarouselApi) => void
 
 export type CarouselProps = {
