@@ -31,17 +31,20 @@ const Carousel = React.forwardRef<
     const [canScrollPrev, setCanScrollPrev] = React.useState(false)
     const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-    const onSelectCallback = React.useCallback(() => {
-      if (!api) return
-      
-      setCanScrollPrev(api.canScrollPrev())
-      setCanScrollNext(api.canScrollNext())
-      
-      // Call user-provided onSelect callback if it exists
-      if (onSelect && api) {
-        onSelect(api)
-      }
-    }, [api, onSelect])
+    const onSelectCallback = React.useCallback(
+      (event?: React.SyntheticEvent<HTMLDivElement>) => {
+        if (!api) return
+        
+        setCanScrollPrev(api.canScrollPrev())
+        setCanScrollNext(api.canScrollNext())
+        
+        // Call user-provided onSelect callback if it exists
+        if (onSelect && api) {
+          onSelect(api)
+        }
+      }, 
+      [api, onSelect]
+    )
 
     const scrollPrev = React.useCallback(() => {
       api?.scrollPrev()
