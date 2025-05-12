@@ -9,7 +9,7 @@ export type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 export type CarouselOptions = UseCarouselParameters[0]
 export type CarouselPlugin = UseCarouselParameters[1]
 
-// Update handler type to accept either a React event or the API
+// Define our handler type to match what embla-carousel expects
 export type CarouselOnSelectHandler = (api: CarouselApi) => void
 
 export type CarouselProps = {
