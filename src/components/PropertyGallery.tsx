@@ -23,7 +23,6 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
   const [api, setApi] = useState<CarouselApi | null>(null);
   
   // Define our handler function for the Carousel onSelect prop
-  // This now accepts the CarouselApi parameter which matches our type definition
   const handleSelect = useCallback((api: CarouselApi) => {
     const selectedIndex = api.selectedScrollSnap();
     setCurrentIndex(selectedIndex);
