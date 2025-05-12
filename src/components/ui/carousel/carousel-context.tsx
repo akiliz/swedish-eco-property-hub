@@ -9,8 +9,8 @@ export type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 export type CarouselOptions = UseCarouselParameters[0]
 export type CarouselPlugin = UseCarouselParameters[1]
 
-// Define a type for the onSelect handler that only expects the API
-export type CarouselOnSelectHandler = (api: CarouselApi) => void
+// Update the type definition to support both React events and our custom handler
+export type CarouselOnSelectHandler = ((api: CarouselApi) => void) | React.ReactEventHandler<HTMLDivElement>
 
 export type CarouselProps = {
   opts?: CarouselOptions

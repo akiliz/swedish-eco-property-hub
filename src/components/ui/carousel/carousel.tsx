@@ -2,7 +2,7 @@
 import * as React from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { cn } from "@/lib/utils"
-import { CarouselContext, type CarouselApi, type CarouselProps } from "./carousel-context"
+import { CarouselContext, type CarouselApi, type CarouselProps, type CarouselOnSelectHandler } from "./carousel-context"
 
 const Carousel = React.forwardRef<
   HTMLDivElement,
@@ -31,7 +31,7 @@ const Carousel = React.forwardRef<
     const [canScrollPrev, setCanScrollPrev] = React.useState(false)
     const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-    const onSelectHandler = React.useCallback(() => {
+    const onSelectHandler = React.useCallback((event?: React.SyntheticEvent<HTMLDivElement, Event>) => {
       if (!api) {
         return
       }
@@ -40,8 +40,15 @@ const Carousel = React.forwardRef<
       setCanScrollNext(api.canScrollNext())
       
       // Call user-provided onSelect callback if it exists
-      if (onSelect && typeof onSelect === 'function') {
-        onSelect(api)
+      if (onSelect) {
+        if (typeof onSelect === 'function') {
+          // Check if it's a plain function (expecting API) or a React event handler
+          if (event) {
+            (onSelect as React.ReactEventHandler<HTMLDivElement>)(event);
+          } else {
+            (onSelect as (api: CarouselApi) => void)(api);
+          }
+        }
       }
     }, [api, onSelect])
 
@@ -79,7 +86,10 @@ const Carousel = React.forwardRef<
         return
       }
 
+      // Call without event for initial setup
       onSelectHandler()
+      
+      // Setup event listeners
       api.on("reInit", onSelectHandler)
       api.on("select", onSelectHandler)
 
