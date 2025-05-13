@@ -1,10 +1,11 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AdminSidebar from "@/components/admin/AdminSidebar";
@@ -142,7 +143,7 @@ const AdminSettings = () => {
   });
 
   // Form submission handlers
-  const onGeneralSubmit = (data: GeneralFormValues) => {
+  const onGeneralSubmit = (data: any) => {
     console.log("General settings updated:", data);
     toast({
       title: "Settings updated",
@@ -150,7 +151,7 @@ const AdminSettings = () => {
     });
   };
 
-  const onNotificationSubmit = (data: NotificationFormValues) => {
+  const onNotificationSubmit = (data: any) => {
     console.log("Notification settings updated:", data);
     toast({
       title: "Settings updated",
@@ -158,7 +159,7 @@ const AdminSettings = () => {
     });
   };
 
-  const onSecuritySubmit = (data: SecurityFormValues) => {
+  const onSecuritySubmit = (data: any) => {
     console.log("Security settings updated:", data);
     toast({
       title: "Settings updated",
@@ -166,7 +167,7 @@ const AdminSettings = () => {
     });
   };
 
-  const onIntegrationSubmit = (data: IntegrationFormValues) => {
+  const onIntegrationSubmit = (data: any) => {
     console.log("Integration settings updated:", data);
     toast({
       title: "Settings updated",
@@ -174,12 +175,15 @@ const AdminSettings = () => {
     });
   };
 
-  // Redirect if not authenticated (will always be authenticated in dev mode)
+  // Redirect if not authenticated
   useEffect(() => {
+    console.log("Auth check:", isAuthenticated);
     if (!isAuthenticated) {
       navigate("/auth");
     }
   }, [isAuthenticated, navigate]);
+
+  console.log("Rendering AdminSettings component");
 
   return (
     <div className="min-h-screen flex flex-col">
