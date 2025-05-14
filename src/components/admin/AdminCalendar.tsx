@@ -159,8 +159,9 @@ const AdminCalendar = () => {
                 hasEvent: "has-event",
               }}
             />
-            <style jsx global>{`
-              .has-event::after {
+            {/* Fix: Remove jsx and global props from style tag */}
+            <style>
+              {`.has-event::after {
                 content: '';
                 position: absolute;
                 bottom: 4px;
@@ -171,8 +172,8 @@ const AdminCalendar = () => {
                 border-radius: 50%;
                 background-color: currentColor;
                 opacity: 0.7;
-              }
-            `}</style>
+              }`}
+            </style>
           </div>
           <div className="md:col-span-2">
             <div className="border rounded-md h-full p-3">
