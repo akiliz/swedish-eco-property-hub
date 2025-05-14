@@ -15,7 +15,7 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
 )
 Table.displayName = "Table"
 
-const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLTableSectionHTMLAttributes<HTMLTableSectionElement>>(
+const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
   ({ className, ...props }, ref) => (
     <thead
       ref={ref}
@@ -26,7 +26,7 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLTableSec
 )
 TableHeader.displayName = "TableHeader"
 
-const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLTableSectionHTMLAttributes<HTMLTableSectionElement>>(
+const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
   ({ className, ...props }, ref) => (
     <tbody
       ref={ref}
@@ -37,7 +37,7 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLTableSecti
 )
 TableBody.displayName = "TableBody"
 
-const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLTableSectionHTMLAttributes<HTMLTableSectionElement>>(
+const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
   ({ className, ...props }, ref) => (
     <tfoot
       ref={ref}
@@ -48,7 +48,7 @@ const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLTableSec
 )
 TableFooter.displayName = "TableFooter"
 
-const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLTableRowHTMLAttributes<HTMLTableRowElement>>(
+const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
   ({ className, ...props }, ref) => (
     <tr
       ref={ref}

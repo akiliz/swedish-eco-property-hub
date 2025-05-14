@@ -1,3 +1,4 @@
+
 import * as React from "react"
 
 import type {
@@ -8,12 +9,14 @@ import type {
 const TOAST_LIMIT = 5
 const TOAST_REMOVE_DELAY = 1000000
 
-type ToasterToast = ToastProps & {
+export type Toast = ToastProps & {
   id: string
   title?: React.ReactNode
   description?: React.ReactNode
   action?: ToastActionElement
 }
+
+type ToasterToast = Toast
 
 const actionTypes = {
   ADD_TOAST: "ADD_TOAST",
@@ -139,9 +142,9 @@ function addToRemoveQueue(toastId: string) {
   toastTimeouts.set(toastId, timeout)
 }
 
-type Toast = Omit<ToasterToast, "id">
+type ToastOptions = Omit<Toast, "id">
 
-function toast({ ...props }: Toast) {
+function toast({ ...props }: ToastOptions) {
   const id = genId()
 
   const update = (props: ToasterToast) =>

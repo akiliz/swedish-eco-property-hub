@@ -23,10 +23,11 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
   const [api, setApi] = useState<CarouselApi | null>(null);
   
   // Define our handler function for the Carousel onSelect prop
-  const handleSelect = useCallback((api: CarouselApi) => {
+  const handleSelect = useCallback(() => {
+    if (!api) return;
     const selectedIndex = api.selectedScrollSnap();
     setCurrentIndex(selectedIndex);
-  }, []);
+  }, [api]);
 
   const scrollToIndex = useCallback((index: number) => {
     api?.scrollTo(index);
@@ -67,6 +68,20 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
     
     return () => clearTimeout(timeoutId);
   }, [currentIndex, centerSelectedThumbnail]);
+
+  // Add effect to subscribe to API events after it's available
+  useEffect(() => {
+    if (!api) return;
+    
+    api.on("select", handleSelect);
+    
+    // Initial call to set the current index
+    handleSelect();
+    
+    return () => {
+      api.off("select", handleSelect);
+    };
+  }, [api, handleSelect]);
   
   return (
     <div className="space-y-4">
@@ -77,7 +92,6 @@ const PropertyGallery = ({ images, title }: PropertyGalleryProps) => {
           loop: true,
         }}
         setApi={setApi}
-        onSelect={handleSelect}
       >
         <CarouselContent>
           {images.map((image, index) => (

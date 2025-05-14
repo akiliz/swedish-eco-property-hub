@@ -73,25 +73,9 @@ const AdminCalendar = () => {
     event.date.getFullYear() === date.getFullYear()
   );
 
-  // Custom day renderer to show event indicators
-  const renderDay = (day: Date) => {
-    const isSelected = 
-      day.getDate() === date.getDate() && 
-      day.getMonth() === date.getMonth() &&
-      day.getFullYear() === date.getFullYear();
-      
-    const dayHasEvents = hasEvents(day);
-    
-    return (
-      <div className="relative">
-        <div>{day.getDate()}</div>
-        {dayHasEvents && (
-          <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
-            <div className="h-1 w-1 rounded-full bg-primary"></div>
-          </div>
-        )}
-      </div>
-    );
+  // Custom day renderer - removed as it's not supported by the Calendar component
+  const modifiers = {
+    hasEvent: (day: Date) => hasEvents(day),
   };
 
   // Get type-specific styling for events
@@ -170,8 +154,25 @@ const AdminCalendar = () => {
               selected={date}
               onSelect={(newDate) => newDate && setDate(newDate)}
               className={cn("border rounded-md p-3 pointer-events-auto")}
-              renderDay={renderDay}
+              modifiers={modifiers}
+              modifiersClassNames={{
+                hasEvent: "has-event",
+              }}
             />
+            <style jsx global>{`
+              .has-event::after {
+                content: '';
+                position: absolute;
+                bottom: 4px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                background-color: currentColor;
+                opacity: 0.7;
+              }
+            `}</style>
           </div>
           <div className="md:col-span-2">
             <div className="border rounded-md h-full p-3">
