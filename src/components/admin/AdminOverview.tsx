@@ -1,4 +1,4 @@
 
-import { AdminOverview } from "./dashboard/AdminOverview";
+import { AdminOverview as AdminOverviewComponent } from "./dashboard/AdminOverview";
 
-export default AdminOverview;
+export default AdminOverviewComponent;
