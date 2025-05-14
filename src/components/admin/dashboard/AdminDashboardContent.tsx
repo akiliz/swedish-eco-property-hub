@@ -1,5 +1,5 @@
 
-import { AdminNotifications } from "@/components/admin/AdminNotifications";
+import AdminNotifications from "@/components/admin/AdminNotifications";
 import { AdminOverview } from "@/components/admin/dashboard/AdminOverview";
 
 const AdminDashboardContent = () => {
