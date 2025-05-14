@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminOverview from "@/components/admin/AdminOverview";
+import AdminNotifications from "@/components/admin/AdminNotifications";
 
 const AdminDashboard = () => {
   const { isAuthenticated } = useAuth();
@@ -24,7 +25,12 @@ const AdminDashboard = () => {
       <div className="flex flex-grow">
         <AdminSidebar />
         <main className="flex-grow p-6">
-          <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+            <div className="flex items-center space-x-2">
+              <AdminNotifications />
+            </div>
+          </div>
           <AdminOverview />
         </main>
       </div>
