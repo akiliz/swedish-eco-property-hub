@@ -3,7 +3,6 @@ export { default as AgentCard } from './AgentCard';
 export { default as ExpatResourceCard } from './ExpatResourceCard';
 export { default as Footer } from './Footer';
 export { GDPRContactForm } from './GDPRContactForm';
-export { PropertyInquiryForm } from './PropertyInquiryForm';
 export { default as Hero } from './Hero';
 export { default as MortgageCalculator } from './MortgageCalculator';
 export { default as Navbar } from './Navbar';
