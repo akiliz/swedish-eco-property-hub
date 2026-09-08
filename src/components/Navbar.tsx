@@ -9,14 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Globe, Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+import { Globe, Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [language, setLanguage] = useState<"en" | "sv">("en");
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
 
   const toggleLanguage = () => {
     setLanguage(language === "en" ? "sv" : "en");
@@ -25,11 +23,6 @@ const Navbar = () => {
   const handleNavigation = (path: string) => {
     navigate(path);
     setIsOpen(false);
-  };
-
-  const handleLogout = async () => {
-    await logout();
-    navigate("/");
   };
 
   return (
@@ -88,41 +81,6 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {isAuthenticated ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-full">
-                  <User className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => navigate("/profile")}>
-                  {language === "en" ? "My Profile" : "Min Profil"}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/admin")}>
-                  <LayoutDashboard className="h-4 w-4 mr-2" />
-                  {language === "en" ? "Admin Dashboard" : "Administratörspanel"}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/saved-properties")}>
-                  {language === "en" ? "Saved Properties" : "Sparade Fastigheter"}
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-destructive">
-                  <LogOut className="h-4 w-4 mr-2" />
-                  {language === "en" ? "Logout" : "Logga Ut"}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button 
-              variant="outline" 
-              className="hidden md:inline-flex"
-              onClick={() => navigate("/auth")}
-            >
-              {language === "en" ? "Login" : "Logga In"}
-            </Button>
-          )}
-
           <Button 
             variant="default" 
             className="hidden md:inline-flex"
@@ -170,35 +128,6 @@ const Navbar = () => {
           >
             {language === "en" ? "About" : "Om Oss"}
           </button>
-          {isAuthenticated ? (
-            <>
-              <button
-                className="block w-full text-left py-2 text-foreground hover:text-eco-green transition-colors"
-                onClick={() => handleNavigation("/profile")}
-              >
-                {language === "en" ? "My Profile" : "Min Profil"}
-              </button>
-              <button
-                className="block w-full text-left py-2 text-foreground hover:text-eco-green transition-colors"
-                onClick={() => handleNavigation("/admin")}
-              >
-                {language === "en" ? "Admin Dashboard" : "Administratörspanel"}
-              </button>
-              <button
-                className="block w-full text-left py-2 text-destructive hover:text-destructive/80 transition-colors"
-                onClick={handleLogout}
-              >
-                {language === "en" ? "Logout" : "Logga Ut"}
-              </button>
-            </>
-          ) : (
-            <button
-              className="block w-full text-left py-2 text-foreground hover:text-eco-green transition-colors"
-              onClick={() => handleNavigation("/auth")}
-            >
-              {language === "en" ? "Login" : "Logga In"}
-            </button>
-          )}
           <Button 
             className="w-full mt-2"
             onClick={() => handleNavigation("/list-property")}
