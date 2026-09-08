@@ -32,10 +32,22 @@ import {
   ChevronDown 
 } from "lucide-react";
 
+export interface SearchFiltersValues {
+  location: string;
+  propertyType: string;
+  priceRange: number[];
+  certifications: string[];
+  visaEligible: boolean;
+  schoolDistance: string;
+  sellerType: string;
+  propertyAge: string;
+  energyClass: string;
+}
+
 interface SearchFiltersProps {
   isCollapsed?: boolean;
   toggleCollapse?: () => void;
-  onSearch?: (filters: any) => void;
+  onSearch?: (filters: SearchFiltersValues) => void;
 }
 
 const SearchFilters = ({ 

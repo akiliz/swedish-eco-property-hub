@@ -30,7 +30,7 @@ const Properties = () => {
   const currentProperties = filteredProperties.slice(indexOfFirstProperty, indexOfLastProperty);
   const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
 
-  const handleSearch = (filters: any) => {
+  const handleSearch = (filters: SearchFiltersValues) => {
     // Filter properties based on search criteria
     let results = properties;
 
