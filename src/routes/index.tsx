@@ -20,15 +20,6 @@ const Terms = lazy(() => import("@/pages/Terms"));
 const Cookies = lazy(() => import("@/pages/Cookies"));
 const GDPR = lazy(() => import("@/pages/GDPR"));
 const MortgageCalculator = lazy(() => import("@/components/MortgageCalculator"));
-const Auth = lazy(() => import("@/pages/Auth"));
-const Profile = lazy(() => import("@/pages/Profile"));
-const AdminDashboard = lazy(() => import("@/pages/admin/Dashboard"));
-const AdminUsers = lazy(() => import("@/pages/admin/Users"));
-const AdminProperties = lazy(() => import("@/pages/admin/Properties"));
-const AdminInquiries = lazy(() => import("@/pages/admin/Inquiries"));
-const AdminContent = lazy(() => import("@/pages/admin/Content"));
-const AdminSettings = lazy(() => import("@/pages/admin/Settings"));
-const EditProperty = lazy(() => import("@/pages/admin/EditProperty"));
 const Navbar = lazy(() => import("@/components/Navbar"));
 const Footer = lazy(() => import("@/components/Footer"));
 
@@ -69,15 +60,6 @@ const AppRoutes = () => {
       <Route path="/cookies" element={<LazyLoadWrapper><Cookies /></LazyLoadWrapper>} />
       <Route path="/gdpr" element={<LazyLoadWrapper><GDPR /></LazyLoadWrapper>} />
       <Route path="/mortgage-calculator" element={<LazyLoadWrapper><MortgageCalculatorPage /></LazyLoadWrapper>} />
-      <Route path="/auth" element={<LazyLoadWrapper><Auth /></LazyLoadWrapper>} />
-      <Route path="/profile" element={<LazyLoadWrapper><Profile /></LazyLoadWrapper>} />
-      <Route path="/admin" element={<LazyLoadWrapper><AdminDashboard /></LazyLoadWrapper>} />
-      <Route path="/admin/users" element={<LazyLoadWrapper><AdminUsers /></LazyLoadWrapper>} />
-      <Route path="/admin/properties" element={<LazyLoadWrapper><AdminProperties /></LazyLoadWrapper>} />
-      <Route path="/admin/properties/edit/:id" element={<LazyLoadWrapper><EditProperty /></LazyLoadWrapper>} />
-      <Route path="/admin/inquiries" element={<LazyLoadWrapper><AdminInquiries /></LazyLoadWrapper>} />
-      <Route path="/admin/content" element={<LazyLoadWrapper><AdminContent /></LazyLoadWrapper>} />
-      <Route path="/admin/settings" element={<LazyLoadWrapper><AdminSettings /></LazyLoadWrapper>} />
       <Route path="*" element={<LazyLoadWrapper><NotFound /></LazyLoadWrapper>} />
     </Routes>
   );
