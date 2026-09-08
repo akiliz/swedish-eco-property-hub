@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
-import SearchFilters from "@/components/SearchFilters";
+import SearchFilters, { SearchFiltersValues } from "@/components/SearchFilters";
 import { Button } from "@/components/ui/button";
 import { Filter, Grid3X3, LayoutList } from "lucide-react";
 import properties from "@/data/properties";
@@ -30,7 +30,7 @@ const Properties = () => {
   const currentProperties = filteredProperties.slice(indexOfFirstProperty, indexOfLastProperty);
   const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
 
-  const handleSearch = (filters: any) => {
+  const handleSearch = (filters: SearchFiltersValues) => {
     // Filter properties based on search criteria
     let results = properties;
 
